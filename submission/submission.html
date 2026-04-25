@@ -2,82 +2,1180 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Joel</title>
+  <title>Banners</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <style type="text/css">
-    html,
-    body {
-      background: transparent;
-      margin: 0;
-      padding: 0;
-      font-family: sans-serif;
+    html, body {
+      overflow: hidden;
+      margin: 0 !important;
+      padding: 0 !important;
     }
 
     #overlay-container {
-      width: 640px;
-      height: 480px;
+      width: 100vw;
+      height: 100vh;
+      position: relative;
     }
 
-    /* Your style here... (feel free to remove this example styling) */
-    #skip {
-      display: none; /* Hidden until ad starts */
+    .dog {
+      background-image: url('./images/dog.jpeg');
+      background-size: cover;
+      background-position: left -185px center;
+      background-repeat: no-repeat;
+    }
+
+    .cat {
+      background-image: url('./images/cat.png');
+      background-size: cover;
+      background-position: right -184px center;
+      background-repeat: no-repeat;
+    }
+
+    .cat2 {
+      background-image: url('./images/cat2.png');
+      background-size: cover;
+      background-position: right -415px center;
+      background-repeat: no-repeat;
+    }
+
+    .monkey {
+      background-image: url('./images/monkey.jpg');
+      background-size: cover;
+      background-position: right -305px center;
+      background-repeat: no-repeat;
+    }
+
+    .hotdog {
+      background-image: url('./images/hotdog.jpg');
+      background-size: cover;
+      background-position: center center;
+      background-repeat: no-repeat;
+    }
+
+    .pyramid {
+      background-image: url('./images/pyramid.jpg');
+      background-size: cover;
+      background-position: right -75px center;
+      background-repeat: no-repeat;
+    }
+
+    .granny {
+      background-image: url('./images/granny.png');
+      background-size: cover;
+      background-repeat: no-repeat;
+    }
+
+    .granny2 {
+      background-image: url('./images/granny2.png');
+      background-size: cover;
+      background-repeat: no-repeat;
+    }
+    
+    #banner-container {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      height: 100%;
+    }
+
+    .banner {
+      box-sizing: border-box;
+      height: 100%;
+      width: 180px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+      display: none;
+      position: relative;
+      cursor: pointer;
+      z-index: 2;
+      overflow: hidden;
+      font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+      background-color: #111;
+    }
+
+    .banner.show {
+      display: block;
+    }
+
+    .banner-photo {
       position: absolute;
-      bottom: 60px;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .banner-content-mid {
+      position: absolute;
+      top: 0;
+      left: 0;
       right: 0;
+      background: linear-gradient(180deg, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0) 100%);
+      padding: 28px 12px 32px;
+      z-index: 1;
+      text-align: center;
+    }
+
+    .banner-content-mid strong {
+      display: block;
+      color: white;
+      font-size: 17px;
+      font-weight: 700;
+      line-height: 1.2;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.6);
+      letter-spacing: -0.2px;
+    }
+
+    .banner-content-mid p {
+      color: rgba(255, 255, 255, 0.85);
+      font-size: 11px;
+      font-weight: 400;
+      margin-top: 4px;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+    }
+
+    .banner-btn {
+      position: absolute;
+      bottom: 50px;
+      left: 10px;
+      right: 10px;
+      width: auto;
+      padding: 8px 0;
+      font-size: 13px;
+      font-weight: bold;
+      text-align: center;
+      color: white;
+      border-radius: 20px;
+      background: linear-gradient(180deg, #ff5533, #cc2200);
+      text-shadow: 0 1px 1px rgba(0,0,0,0.4);
+      z-index: 1;
+      cursor: pointer;
+    }
+
+    .banner-close {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: rgba(0, 0, 0, 0.55);
+      color: white;
+      font-size: 13px;
+      font-weight: bold;
+      line-height: 22px;
+      text-align: center;
+      cursor: pointer;
+      z-index: 3;
+      border: none;
+      font-family: 'Arial', sans-serif;
+    }
+
+    #fake-popup {
+      display: none;
+      flex-direction: column;
+      box-sizing: border-box;
+      position: absolute;
+      top: 12px;
+      left: 20px;
+      right: 20px;
+      bottom: 12px;
+      border: 2px solid #555;
+      box-shadow: 4px 4px 16px rgba(0,0,0,0.6);
+      z-index: 10;
+      font-family: 'Tahoma', 'Segoe UI', sans-serif;
+      background: #f1f1f1;
+      overflow: hidden;
+    }
+
+    #fake-popup.show {
+      display: flex;
+    }
+
+    .popup-chrome {
+      background: linear-gradient(180deg, #e8e6e2, #d4d0c8);
+      border-bottom: 1px solid #aaa;
+      flex-shrink: 0;
+    }
+
+    .popup-title-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: linear-gradient(180deg, #0a246a, #3a6ea5);
+      color: white;
+      padding: 2px 4px;
+      font-size: 12px;
+      font-weight: bold;
+    }
+
+    .popup-title-bar .popup-close {
+      background: #c04040;
+      color: white;
+      border: 1px outset #ddd;
+      font-size: 11px;
+      padding: 0 4px;
+      cursor: pointer;
+      font-weight: bold;
+      font-family: 'Tahoma', sans-serif;
+    }
+
+    .popup-address-bar {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      padding: 2px 6px;
+      font-size: 11px;
+      color: #333;
+    }
+
+    .popup-address-bar span {
+      flex: 1;
+      background: white;
+      border: 1px inset #aaa;
+      padding: 1px 4px;
+      font-family: 'Courier New', monospace;
+      font-size: 11px;
+      color: #333;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+
+    .popup-body {
+      flex: 1;
+      overflow-y: auto;
+      background: white;
+      padding: 12px 16px;
+      font-size: 13px;
+      color: #222;
+      line-height: 1.5;
+      overflow-x: hidden;
+    }
+
+    .popup-body h2 {
+      font-size: 18px;
+      color: #0a246a;
+      margin: 0 0 8px 0;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+    }
+
+    .popup-body .hero-img {
+      width: 100%;
+      height: 140px;
+      margin: 8px 0;
+      border: 1px solid #ccc;
+      background-position: top -78px center;
+    }
+
+    .popup-body p {
+      margin: 6px 0;
+    }
+
+    .popup-body .popup-btn {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 6px 20px;
+      background: linear-gradient(180deg, #ff6633, #cc3300);
+      color: white;
+      font-weight: bold;
+      font-size: 13px;
+      border: none;
+      cursor: pointer;
+      text-shadow: 0 1px 1px rgba(0,0,0,0.3);
+    }
+
+    .popup-body .fine-print {
+      margin-top: 12px;
+      font-size: 9px;
+      color: #999;
+    }
+
+    .popup-body .dont-show {
+      margin-top: 10px;
+      font-size: 11px;
+      color: #666;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .popup-body .dont-show label {
+      cursor: pointer;
+    }
+
+    #grandma-chat .chat-bubble a.skip-link {
+      color: #3366cc;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+
+    .popup-statusbar {
+      background: #ece9d8;
+      border-top: 1px solid #aaa;
+      padding: 1px 6px;
+      font-size: 10px;
+      color: #555;
+      flex-shrink: 0;
+    }
+
+    #warning-overlay {
+      display: none;
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.45);
+      z-index: 5;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #warning-overlay.show {
+      display: flex;
+    }
+
+    #warning-dialog {
+      background: #ece9d8;
+      border: 2px outset #fff;
+      box-shadow: 3px 3px 10px rgba(0,0,0,0.5);
+      font-family: 'Tahoma', 'Segoe UI', sans-serif;
+      width: 340px;
+      user-select: none;
+    }
+
+    #warning-dialog .warning-title-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: linear-gradient(180deg, #0a246a, #3a6ea5);
+      color: white;
+      padding: 3px 5px;
+      font-size: 12px;
+      font-weight: bold;
+    }
+
+    #warning-dialog .warning-body {
+      padding: 16px 20px 8px;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    #warning-dialog .warning-icon {
+      font-size: 32px;
+      flex-shrink: 0;
+      line-height: 1;
+    }
+
+    #warning-dialog .warning-text {
+      font-size: 12px;
+      color: #222;
+      line-height: 1.45;
+    }
+
+    #warning-dialog .warning-footer {
+      display: flex;
+      justify-content: center;
+      padding: 0 20px 14px;
+    }
+
+    #warning-dialog .warning-ok {
+      padding: 3px 28px;
+      font-size: 12px;
+      font-family: 'Tahoma', sans-serif;
+      cursor: pointer;
+      border: 2px outset #ddd;
+      background: #ece9d8;
+    }
+
+    #warning-dialog .warning-ok:active {
+      border-style: inset;
+    }
+
+    #resume-countdown {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      font-family: 'Tahoma', 'Segoe UI', sans-serif;
+      color: white;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.6);
+    }
+
+    #resume-countdown.hidden {
+      display: none;
+    }
+
+    #resume-text {
+      font-size: 15px;
+    }
+
+    #resume-number {
+      font-size: 48px;
+      font-weight: bold;
+    }
+
+    #grandma-chat {
+      display: none;
+      flex-direction: column;
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 400px;
+      height: 200px;
+      border: 2px solid #888;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+      z-index: 3;
+      font-family: 'Tahoma', 'Segoe UI', sans-serif;
+      background: white;
+      overflow: hidden;
+    }
+
+    #grandma-chat.show {
+      display: flex;
+    }
+
+    #grandma-chat .chat-title-bar {
+      background: linear-gradient(180deg, #3b7dd8, #2058a6);
+      color: white;
+      font-size: 11px;
+      font-weight: bold;
+      padding: 3px 6px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-shrink: 0;
+    }
+
+    #grandma-chat .close {
+      font-size: 11px;
+      background: #c04040;
+      color: white;
+      padding: 1px 5px;
+      font-weight: bold;
+      font-family: 'Tahoma', sans-serif;
+      border: 1px outset #ddd;
+      cursor: pointer;
+    }
+
+    #grandma-chat .chat-body {
+      display: flex;
+      flex: 1;
+      overflow: hidden;
+    }
+
+    #grandma-chat .chat-photo {
+      width: 180px;
+      flex-shrink: 0;
+      background-size: cover;
+      background-position: center;
+      border-right: 1px solid #ccc;
+    }
+
+    #grandma-chat .chat-right {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    #grandma-chat .chat-status {
+      font-size: 10px;
+      color: #666;
+      padding: 2px 8px;
+      background: #eee;
+      border-bottom: 1px solid #ccc;
+      flex-shrink: 0;
+    }
+
+    #grandma-chat .chat-status .online-dot {
+      color: #4caf50;
+    }
+
+    #grandma-chat .chat-messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 6px 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      font-size: 11px;
+      color: #333;
+      background: #fafafa;
+    }
+
+    #grandma-chat .chat-bubble {
+      background: #e8e0f0;
+      border-radius: 8px 8px 8px 2px;
+      padding: 5px 8px;
+      max-width: 90%;
+      line-height: 1.35;
+      word-wrap: break-word;
+      align-self: flex-start;
+    }
+
+    #grandma-chat .chat-bubble.user {
+      background: #d0e8ff;
+      border-radius: 8px 8px 2px 8px;
+      align-self: flex-end;
+    }
+
+    #grandma-chat .chat-input-area {
+      display: flex;
+      border-top: 1px solid #ccc;
+      flex-shrink: 0;
+    }
+
+    #grandma-chat .chat-input-area input {
+      flex: 1;
+      border: none;
+      padding: 5px 8px;
+      font-size: 11px;
+      font-family: 'Tahoma', sans-serif;
+      outline: none;
+    }
+
+    #grandma-chat .chat-input-area button {
+      padding: 5px 6px;
+      font-size: 10px;
+      background: linear-gradient(180deg, #ff6633, #cc3300);
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-family: 'Tahoma', sans-serif;
+      font-weight: bold;
+    }
+
+    #skip {
+      position: absolute;
+      right: 0px;
+      bottom: 20px;
       padding: 10px 18px;
-      background: rgba(0, 0, 0, 0.6);
-      border: 1px solid black;
-      border-right-width: 0;
       font-size: 1.2rem;
       border-radius: 4px 0 0 4px;
       color: white;
       cursor: pointer;
+      overflow: hidden;
+      background: rgba(0, 0, 0, 0.6);
+      border: 1px solid black;
+      border-right-width: 0;
+      pointer-events: none;
+      opacity: 0.7;
+      --progress: 0%;
+      z-index: 1;
+    }
+
+    #skip::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      width: var(--progress);
+      background: rgba(0, 255, 100, 0.35);
+      transition: width 0.1s linear;
+      z-index: 0;
+    }
+
+    #skip span {
+      position: relative;
+      z-index: 1;
     }
   </style>
 </head>
 
 <body>
   <div id="overlay-container">
-    <!-- We've added a sample button. Feel free to remove it: -->
     <button id="skip">
-      Skip Ad...
+      <span>Skip in 3</span>
     </button>
+
+    <div id="warning-overlay">
+      <div id="warning-dialog">
+        <div class="warning-title-bar">
+          <span>Attention</span>
+        </div>
+        <div class="warning-body">
+          <div class="warning-icon">⚠️</div>
+          <div class="warning-text">Please keep the window the ad is playing in active at all times.</div>
+        </div>
+        <div class="warning-footer">
+          <button class="warning-ok">OK</button>
+        </div>
+      </div>
+      <div id="resume-countdown" class="hidden">
+        <div id="resume-text">The video will resume in</div>
+        <div id="resume-number">3</div>
+      </div>
+    </div>
+
+    <div id="fake-popup">
+      <div class="popup-chrome">
+        <div class="popup-title-bar">
+          <span id="popup-title">Loading...</span>
+          <div class="popup-close close">X</div>
+        </div>
+        <div class="popup-address-bar">
+          Address: <span id="popup-url">http://www.totally-legit-site.com</span>
+        </div>
+      </div>
+      <div class="popup-body" id="popup-body">
+      </div>
+      <div class="popup-statusbar">Done</div>
+    </div>
+
+    <div id="banner-container">
+      <div class="banner left" id="leftAd">
+        <div class="banner-close">✕</div>
+        <div class="banner-photo dog"></div>
+        <div class="banner-content-mid">
+          <strong>Single Dogs Near You</strong>
+          <p>They just want to be adopted.</p>
+        </div>
+        <div class="banner-btn">Search Now ▶</div>
+      </div>
+      
+      <div class="banner right" id="rightAd">
+        <div class="banner-close">✕</div>
+        <div class="banner-photo monkey"></div>
+        <div class="banner-content-mid"></div>
+        <div class="banner-btn"></div>
+      </div>
+    </div>
+
+    <div id="grandma-chat">
+      <div class="chat-title-bar">
+        <span>💬 Single Grandmas Near You!</span>
+        <div class="close">X</div>
+      </div>
+      <div class="chat-body">
+        <div class="chat-photo"></div>
+        <div class="chat-right">
+          <div class="chat-status"><span class="online-dot">●</span> <span id="grandma-name">Grandma</span> is online</div>
+          <div class="chat-messages" id="grandma-messages"></div>
+          <div class="chat-input-area">
+            <input type="text" placeholder="Type a message..." id="grandma-input">
+            <button id="grandma-send">Send</button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
   <script type="text/javascript">
     (function(window, document){
-      // This is how you tell the parent window that the ad was successfully skipped.
-      function adSuccess() {
-        window.top.postMessage({ type: 'success' }, '*');
+      var skipButton = document.getElementById('skip');
+      var skipText = skipButton.querySelector('span');
+      var leftAd = document.getElementById('leftAd');
+      var rightAd = document.getElementById('rightAd');
+      var fakePopup = document.getElementById('fake-popup');
+      var popupTitle = document.getElementById('popup-title');
+      var popupUrl = document.getElementById('popup-url');
+      var popupBody = document.getElementById('popup-body');
+
+      var popupIsOpen = false;
+      var adStarted = false;
+      var bannersPaused = false;
+
+      var warningOverlay = document.getElementById('warning-overlay');
+      var warningIsOpen = false;
+
+      var grandmaChat = document.getElementById('grandma-chat');
+      var grandmaMessages = document.getElementById('grandma-messages');
+      var grandmaInput = document.getElementById('grandma-input');
+      var grandmaSend = document.getElementById('grandma-send');
+      var grandmaActive = false;
+
+      var grandmaProfiles = [
+        { name: 'Gertrude', image: './images/granny.png' },
+        { name: 'Ethel', image: './images/granny2.png' },
+      ];
+
+      var grandmaNameEl = document.getElementById('grandma-name');
+      var grandmaPhoto = grandmaChat.querySelector('.chat-photo');
+
+      var grandmaLines = [
+        'Oh dear, I can\'t find my glasses again...',
+        'Would you like to come over for cookies?',
+        'Hello?? Is this thing working?',
+        'Do you know how to make the text bigger?',
+        'I just learned how to use emojis! 😊😊😊',
+        'Your grandfather says hello 👋',
+        'Are you eating enough, dear?',
+        'Did you get the sweater I knitted for you?',
+        'Where is the Google? I can\'t find the Google.',
+      ];
+      var grandmaLineIndex = 0;
+
+      function sendToParent(msg) {
+        window.top.postMessage(msg, '*');
       }
 
-      const skipButton = document.getElementById('skip');
+      // Skip button always works when clickable (cooldown finished)
+      skipButton.addEventListener('click', function() {
+        sendToParent({ type: 'success' });
+      });
 
-      // Listen for messages from the game shell
-      window.addEventListener('message', (event) => {
+      var cooldownDuration = 3000;
+      var cooldownStart = null;
+      var cooldownRunning = false;
+
+      function startCooldown() {
+        if (skipActivated) return;
+        cooldownStart = Date.now();
+        cooldownRunning = true;
+        skipButton.style.pointerEvents = 'none';
+        skipButton.style.opacity = '0.7';
+        requestAnimationFrame(updateCooldown);
+      }
+
+      function resetCooldown() {
+        if (skipActivated) return;
+        cooldownRunning = false;
+        skipButton.style.setProperty('--progress', '0%');
+        skipText.textContent = 'Skip in 3';
+        setTimeout(startCooldown, 300);
+      }
+
+      function updateCooldown() {
+        if (!cooldownRunning) return;
+        var elapsed = Date.now() - cooldownStart;
+        var progress = Math.min(elapsed / cooldownDuration, 1);
+        skipButton.style.setProperty('--progress', (progress * 100) + '%');
+        var secondsLeft = Math.ceil((cooldownDuration - elapsed) / 1000);
+        skipText.innerHTML = secondsLeft > 0 ? 'Skip in ' + secondsLeft : 'Skip Ad';
+        if (progress >= 1) {
+          cooldownRunning = false;
+          skipButton.style.pointerEvents = 'auto';
+          skipButton.style.opacity = '1';
+          return;
+        }
+        requestAnimationFrame(updateCooldown);
+      }
+
+      function getRandomNumber(min, max) {
+        return Math.floor(Math.random() * (max - min) + min);
+      }
+
+      function pickOne(arr) {
+        return arr[Math.floor(Math.random() * arr.length)];
+      }
+
+      // Banner templates with image arrays and popup content
+      var bannerTemplates = [
+        {
+          images: ['dog'],
+          mid: '<strong>Single Dogs Near You</strong><p>Looking For Adoption</p>',
+          btn: 'Search Now ▶',
+          popup: {
+            title: 'SingleDogsNearYou.com - Find Your Perfect Pup!',
+              url: 'http://www.singledogsnearyou.com/results?zip=90210',
+            body: function(img) {
+              return '<h2>🐕 Your Perfect Match Is Waiting!</h2>'
+                + '<div class="hero-img ' + img + '"></div>'
+                + '<p><b>Congratulations!</b> Our patented PupMatch™ algorithm has identified <b>' + getRandomNumber(2, 14) + ' single dogs</b> in your area who are looking for love... and a forever home.</p>'
+                + '<p>Every dog on our platform has been pre-screened by a certified Dog Compatibility Specialist (DCS) using a rigorous 47-point evaluation system that measures tail wag frequency, treat motivation index, and belly rub receptiveness.</p>'
+                + '<p>Our most popular breeds this month include: Golden Retrievers who think they\'re lap dogs, Huskies who will argue with you about everything, and one very confident Chihuahua named Gerald who listed himself as "6 feet tall."</p>'
+                + '<p>⭐⭐⭐⭐⭐ <i>"I love smooching these puppies. Frankly, I\'d never trust someone who doesn\'t kiss their dog."</i> - Anonymous</p>'
+                + '<button class="popup-btn">View Dogs In Your Area ▶</button>'
+                + '<p class="fine-print">By clicking you agree to receive 47 emails per day about dogs. PupMatch™ compatibility scores are calculated by dogs and are not scientifically validated. All dogs shown may be cuter in person.</p>';
+            }
+          }
+        },
+        {
+          images: ['hotdog'],
+          mid: '<strong>Hot Single Dogs In Your Area!</strong><p>Stuff those buns</p>',
+          btn: 'Order Now ▶',
+          popup: {
+            title: 'HotDogsInYourArea.biz - Premium Wieners',
+              url: 'http://www.hotdogsinyourarea.biz/order?mustard=yes',
+            body: function(img) {
+              return '<h2>🌭 Hot Dogs So Good, They\'re Illegal (In 3 States)</h2>'
+                + '<div class="hero-img ' + img + '"></div>'
+                + '<p>Welcome to <b>HotDogsInYourArea.biz</b>, the internet\'s premier destination for artisanal, hand-crafted wieners made from only the finest mystery meats since 2003.</p>'
+                + '<p>Now serving: <b>The Mega Dog</b> - a hot dog inside a hot dog, wrapped in a hot dog bun, deep fried, and served on a slightly larger hot dog. Our food scientists spent <b>' + getRandomNumber(3, 11) + ' years</b> perfecting the dog-to-bun ratio.</p>'
+                + '<p>Also available: <b>The Infinity Dog</b> (a hot dog that is technically still being made and may never be finished).</p>'
+                + '<p>We are currently ranked <b>#1 on Yelp</b> in the "entertainment" category. Our health inspection score is a number, and we are proud of that.</p>'
+                + '<p>⭐⭐⭐⭐⭐ <i>"I ordered the Infinity Dog and I can\'t stop eating!"</i> - Anonymous</p>'
+                + '<button class="popup-btn">Order a Mega Dog Now ▶</button>'
+                + '<p class="fine-print">Condiments sold separately for $14.99.<br>Hot dogs may contain traces of other, smaller hot dogs.<br>The Infinity Dog is not covered by any warranty, temporal or otherwise.</p>';
+            }
+          }
+        },
+        {
+          images: ['monkey'],
+          mid: '<strong>Are You Smarter Than A Monkey?</strong><p>Take this quirky quiz</p>',
+          btn: 'Take Quiz Now ▶',
+          popup: {
+            title: 'MonkeyIQ.net - The Ultimate Primate Challenge',
+              url: 'http://www.monkeyiq.net/quiz?difficulty=bananas',
+            body: function(img) {
+              return '<h2>🧠 Are You Smarter Than This Monkey?</h2>'
+                + '<div class="hero-img ' + img + '"></div>'
+                + '<p><b>Spoiler:</b> Probably not. This particular capuchin, known only as <b>"Dr. Bananas,"</b> scored <b>' + getRandomNumber(130, 200) + '</b> on a standardized IQ test administered under laboratory conditions.</p>'
+                + '<p>Over <b>' + getRandomNumber(40000, 90000).toLocaleString() + ' people</b> have attempted this quiz. Only <b>3%</b> beat the monkey. Dr. Bananas has been made aware of each failure individually and shows no signs of humility.</p>'
+                + '<p>The quiz covers topics including: spatial reasoning, pattern recognition, banana identification, and a lightning round where you have to open a jar before the monkey does.</p>'
+                + '<p>Our lead researcher, Dr. Linda Fairbottom, notes: "The monkey doesn\'t even try that hard. He usually finishes the test in under four minutes and then just sits there grooming himself while the human participant is still on question three."</p>'
+                + '<p>⭐⭐⭐⭐⭐<i>"This quiz is absolutely bananas."</i> - Anonymous</p>'
+                + '<button class="popup-btn">Start The Quiz ▶</button>'
+                + '<p class="fine-print">Quiz results are legally binding and will appear on your permanent record. MonkeyIQ.net is not responsible for existential crises resulting from losing to a primate. Dr. Bananas is represented by a talent agency and is unavailable for comment.</p>';
+            }
+          }
+        },
+        {
+          images: ['cat', 'cat2'],
+          mid: '<strong>Free Cats 4 You!</strong><p>Limited Time Offer</p>',
+          btn: 'Get Them Now ▶',
+          popup: {
+            title: 'FreeCats4You.org - Unlimited Felines',
+              url: 'http://www.freecatsforyou.org/claim?limit=none',
+            body: function(img) {
+              return '<h2>🐱 Claim Your FREE Cat Today!</h2>'
+                + '<div class="hero-img ' + img + '"></div>'
+                + '<p>That\'s right - <b>completely free cats</b>! No adoption fees, no background check, no questions asked. We have <b>too many cats</b> and the situation is, frankly, untenable.</p>'
+                + '<p>Each cat comes pre-loaded with the ability of knocking precisely one item off every table, 3 AM zoomies at a volume that suggests a much larger animal, and puking in the most inconvenient locations possible.</p>'
+                + '<p>You can choose between the following options:</p>'
+                + '• <p><b>Lumbridge Longhair</b>'
+                + '• <b>Elden Shorthair</b>'
+                + '• <b>Tolkienese</b>'
+                + '<p>⭐⭐⭐⭐⭐ <i>"I didn\'t even order a cat, but they sent one anyway?"</i> - Anonymous</p>'
+                + '<button class="popup-btn">Claim Your Cat ▶</button>'
+                + '<p class="fine-print">All cats are non-refundable. Cats may or may not arrive. FreeCatsForYou.org is not liable for damaged furniture, shredded curtains, or dissolved relationships. By claiming a cat you acknowledge that you are not adopting the cat,the cat is adopting you, and it reserves the right to find you unacceptable.</p>';
+            }
+          }
+        },
+        {
+          images: ['pyramid'],
+          mid: '<strong>Are Pyramids From Space?</strong><p>Scientists are baffled</p>',
+          btn: 'Read More ▶',
+          popup: {
+            title: 'TruthUnveiled67.info - THEY Don\'t Want You To Know',
+            url: 'http://www.truthunveiled67.info/pyramids-alien-proof?ref=bannerad',
+            body: function(img) {
+              return '<h2>⚠️ EXPOSED: The Pyramids Were Built By Aliens</h2>'
+                + '<div class="hero-img ' + img + '"></div>'
+                + '<p>A shocking new study by the <b>Institute of Unverified Claims</b> has confirmed what many have long suspected: the Egyptian pyramids were <b>definitely not built by humans</b>.</p>'
+                + '<p>"Have you ever tried stacking rocks? It\'s really hard," said Dr. Lance Piedmont, who holds a degree in something. "There\'s simply no way ancient people could have done this without help from a <b>Type IV galactic civilization</b>."</p>'
+                + '<p>The study points to several pieces of irrefutable evidence:</p>'
+                + '<p>• Pyramids are shaped like triangles. You know what else is a triangle? <b>The Illuminati symbol.</b><br>'
+                + '• If you rearrange the letters in "PYRAMID" you get "DRY LAMP." Nobody can explain this.<br>'
+                + '• The Great Pyramid is exactly ' + getRandomNumber(200, 900) + ' miles from a Denny\'s. Coincidence?</p>'
+                + '<p>Mainstream archaeologists have dismissed the findings, calling them "not real" and "please stop emailing us." But Dr. Piedmont remains undeterred.</p>'
+                + '<p>"The truth is out there," he said, gesturing at a poster he bought at a gas station. "And it\'s shaped like a triangle."</p>'
+                + '<p><i>"I showed this article to my cat and he stared at me for a very long time. He knows something."</i> - Anonymous</p>'
+                + '<button class="popup-btn">SHARE THE TRUTH ▶</button>'
+                + '<p class="fine-print">TruthUnveiled67.info is not affiliated with any accredited institution, government agency, or reality in general.</p>';
+            }
+          }
+        },
+      ];
+
+      // Track which template index is currently shown on each banner, to avoid duplicates
+      var activeTemplates = { left: -1, right: -1 };
+
+      function drawTemplate(side) {
+        var pool = [];
+        for (var i = 0; i < bannerTemplates.length; i++) {
+          if (!dismissedTemplates[i]) pool.push(i);
+        }
+        if (pool.length === 0) return -1;
+
+        for (var i = pool.length - 1; i > 0; i--) {
+          var j = Math.floor(Math.random() * (i + 1));
+          var tmp = pool[i]; pool[i] = pool[j]; pool[j] = tmp;
+        }
+
+        var otherSide = side === 'left' ? 'right' : 'left';
+        var pick = -1;
+        for (var k = 0; k < pool.length; k++) {
+          if (pool[k] !== activeTemplates[otherSide]) {
+            pick = pool[k];
+            break;
+          }
+        }
+        if (pick === -1) pick = pool[0];
+
+        activeTemplates[side] = pick;
+        return pick;
+      }
+
+      // Dynamically renders the banner based on templates
+      function renderBanner(bannerEl, side) {
+        var idx = drawTemplate(side);
+        if (idx === -1) return false;
+        var tpl = bannerTemplates[idx];
+        var chosenImage = pickOne(tpl.images);
+
+        bannerEl.querySelector('.banner-photo').className = 'banner-photo ' + chosenImage;
+        bannerEl.querySelector('.banner-content-mid').innerHTML = tpl.mid;
+        bannerEl.querySelector('.banner-btn').textContent = tpl.btn;
+
+        bannerEl.templateIndex = idx;
+        bannerEl.chosenImage = chosenImage;
+        return true;
+      }
+
+      // Track dismissed ad templates
+      var dismissedTemplates = {};
+      var currentPopupIndex = -1;
+
+      function allTemplatesDismissed() {
+        for (var i = 0; i < bannerTemplates.length; i++) {
+          if (!dismissedTemplates[i]) return false;
+        }
+        return true;
+      }
+
+      var skipActivated = false;
+
+      // Fake popup logic
+      function openPopup(bannerEl) {
+        var tpl = bannerTemplates[bannerEl.templateIndex];
+        var img = bannerEl.chosenImage;
+        currentPopupIndex = bannerEl.templateIndex;
+        popupTitle.textContent = tpl.popup.title;
+        popupUrl.textContent = tpl.popup.url;
+        popupBody.innerHTML = tpl.popup.body(img)
+          + '<div class="dont-show"><label><input type="checkbox" id="dont-show-check"> Please do not show this advertisement anymore.</label></div>';
+        fakePopup.classList.add('show');
+        popupIsOpen = true;
+        showWarning();
+
+        var adWindowBtn = popupBody.querySelector('.popup-btn');
+        if (adWindowBtn) {
+          adWindowBtn.addEventListener('click', function() {
+            adWindowBtn.textContent = 'Processing...';
+          });
+        }
+      }
+
+      function closePopup() {
+        fakePopup.classList.remove('show');
+        popupIsOpen = false;
+      }
+
+      function showWarning() {
+        warningDialog.style.display = '';
+        resumeCountdown.classList.add('hidden');
+        warningOverlay.classList.add('show');
+        warningIsOpen = true;
+        bannersPaused = true;
+        cooldownRunning = false;
+        skipButton.style.visibility = 'hidden';
+        leftAd.classList.remove('show');
+        rightAd.classList.remove('show');
+        stopGrandmaChat();
+        sendToParent({ type: 'pause' });
+      }
+
+      function dismissWarning() {
+        warningOverlay.classList.remove('show');
+        warningIsOpen = false;
+        bannersPaused = false;
+        skipButton.style.visibility = 'visible';
+        sendToParent({ type: 'play' });
+        resetCooldown();
+        deployBanners();
+        deployGrandma();
+      }
+
+      var warningDialog = document.getElementById('warning-dialog');
+      var warningOkBtn = warningOverlay.querySelector('.warning-ok');
+      var resumeCountdown = document.getElementById('resume-countdown');
+      var resumeNumber = document.getElementById('resume-number');
+
+      warningOkBtn.addEventListener('click', function() {
+        warningDialog.style.display = 'none';
+        resumeCountdown.classList.remove('hidden');
+        var count = 3;
+        resumeNumber.textContent = count;
+        var tick = setInterval(function() {
+          count--;
+          if (count <= 0) {
+            clearInterval(tick);
+            dismissWarning();
+            return;
+          }
+          resumeNumber.textContent = count;
+        }, 1000);
+      });
+
+      fakePopup.querySelector('.popup-close').addEventListener('click', function(e) {
+        e.stopPropagation();
+        // Check if "don't show" was ticked
+        var checkbox = document.getElementById('dont-show-check');
+        if (checkbox && checkbox.checked && currentPopupIndex >= 0) {
+          dismissedTemplates[currentPopupIndex] = true;
+        }
+        currentPopupIndex = -1;
+        closePopup();
+      });
+
+      // Banners reset the skip button timer & re-open themselves after 2-3 seconds
+      [leftAd, rightAd].forEach(function(ad) {
+        var side = ad === leftAd ? 'left' : 'right';
+        ad.fading = false;
+        ad.addEventListener('click', function(e) {
+          if (ad.fading || bannersPaused) return;
+          if (e.target.classList.contains('banner-close')) {
+            ad.fading = true;
+            ad.style.opacity = '0';
+            setTimeout(function() {
+              if (bannersPaused) {
+                ad.style.opacity = '1';
+                ad.fading = false;
+                return;
+              }
+              if (renderBanner(ad, side)) {
+                ad.style.opacity = '1';
+              } else {
+                ad.classList.remove('show');
+                ad.style.opacity = '1';
+              }
+              ad.fading = false;
+            }, getRandomNumber(2000, 2850));
+            return;
+          }
+          if (ad.templateIndex === undefined) return;
+          openPopup(ad);
+        });
+      });
+
+      // Only right banner X resets cooldown
+      rightAd.addEventListener('click', function(e) {
+        if (!e.target.classList.contains('banner-close')) return;
+        resetCooldown();
+      });
+
+      function shuffleArray(arr) {
+        for (var i = arr.length - 1; i > 0; i--) {
+          var j = Math.floor(Math.random() * (i + 1));
+          var tmp = arr[i]; arr[i] = arr[j]; arr[j] = tmp;
+        }
+        return arr;
+      }
+
+      var shuffledGrandmaLines = shuffleArray(grandmaLines.slice());
+
+      // Grandma chat logic
+      function addGrandmaBubble(text, isUser) {
+        var bubble = document.createElement('div');
+        bubble.className = 'chat-bubble' + (isUser ? ' user' : '');
+        bubble.textContent = text;
+        grandmaMessages.appendChild(bubble);
+        grandmaMessages.scrollTop = grandmaMessages.scrollHeight;
+      }
+
+      function getNextGrandmaLine() {
+        if (grandmaLineIndex >= shuffledGrandmaLines.length) {
+          grandmaLineIndex = 0;
+          shuffledGrandmaLines = shuffleArray(grandmaLines.slice());
+        }
+        return shuffledGrandmaLines[grandmaLineIndex++];
+      }
+
+      function sendUserMessage() {
+        var text = grandmaInput.value.trim();
+        if (!text) return;
+        grandmaInput.value = '';
+        addGrandmaBubble(text, true);
+        resetCooldown();
+
+        var containsSkip = text.toLowerCase().indexOf('skip') !== -1;
+        var containsICUP = text.toLowerCase().replace(/\s/g, "").indexOf('icup') !== -1;
+        setTimeout(function() {
+          if (!grandmaActive) return;
+
+          // If you ask the grandma for a skip button, she'll give you one
+          if (containsSkip) {
+            var bubble = document.createElement('div');
+            bubble.className = 'chat-bubble';
+            bubble.innerHTML = 'Of course sweetie, try this <a class="skip-link" href="#">skip button</a>.';
+            grandmaMessages.appendChild(bubble);
+            grandmaMessages.scrollTop = grandmaMessages.scrollHeight;
+            bubble.querySelector('.skip-link').addEventListener('click', function(e) {
+              e.preventDefault();
+              sendToParent({ type: 'success' });
+            });
+          // I had to
+          } else if (containsICUP) {
+            var bubble = document.createElement('div');
+            bubble.className = 'chat-bubble';
+            bubble.innerHTML = 'Disgusting.';
+            grandmaMessages.appendChild(bubble);
+            grandmaMessages.scrollTop = grandmaMessages.scrollHeight;
+          } else {
+            addGrandmaBubble(getNextGrandmaLine(), false);
+          }
+        }, getRandomNumber(2500, 5000));
+      }
+
+      function startGrandmaChat() {
+        grandmaActive = true;
+        grandmaMessages.innerHTML = '';
+        grandmaLineIndex = 0;
+        shuffledGrandmaLines = shuffleArray(grandmaLines.slice());
+        // Pick a random granny
+        var profile = pickOne(grandmaProfiles);
+        grandmaPhoto.style.backgroundImage = 'url(' + profile.image + ')';
+        grandmaNameEl.textContent = profile.name;
+        // Opening message
+        addGrandmaBubble(getNextGrandmaLine(), false);
+      }
+
+      function stopGrandmaChat() {
+        grandmaActive = false;
+        grandmaChat.classList.remove('show');
+      }
+
+      grandmaChat.querySelector('.close').addEventListener('click', function(e) {
+        e.stopPropagation();
+        stopGrandmaChat();
+        resetCooldown();
+      });
+
+      grandmaSend.addEventListener('click', function() {
+        sendUserMessage();
+      });
+
+      grandmaInput.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') sendUserMessage();
+      });
+
+      var grandmaInterval = null;
+
+      function deployGrandma() {
+        if (grandmaInterval) clearInterval(grandmaInterval);
+        grandmaInterval = setInterval(function() {
+          if (bannersPaused || grandmaActive) return;
+          grandmaChat.classList.add('show');
+          startGrandmaChat();
+        }, getRandomNumber(2000, 5000));
+      }
+
+      function deployBanners() {
+        setTimeout(function() {
+          if (renderBanner(leftAd, 'left')) {
+            leftAd.classList.add('show');
+          }
+        }, getRandomNumber(500, 1400));
+
+        setTimeout(function() {
+          if (renderBanner(rightAd, 'right')) {
+            rightAd.classList.add('show');
+          }
+        }, getRandomNumber(1500, 2750));
+      }
+
+      window.addEventListener('message', function(event) {
         if (!event.data || !event.data.type) return;
-
         if (event.data.type === 'adStarted') {
-          // Show the skip button when the ad starts
-          skipButton.style.display = 'block';
+          adStarted = true;
+          startCooldown();
+          deployBanners();
+          deployGrandma();
         }
-
-        // By default, if the user doesn't "skip" the ad before the video ends,
-        // we call fail to restart. You're welcome to replace this with a survey
-        // or other interaction instead (see examples/survey).
+        
         if (event.data.type === 'adFinished') {
-          skipButton.style.display = 'none';
-          window.top.postMessage({ type: 'fail' }, '*');
+          sendToParent({ type: 'fail' });
         }
       });
-
-      // Your ad overlay code goes here, we've added a simple example below:
-      skipButton.addEventListener('click', () => {
-        skipButton.style.display = 'none';
-        adSuccess();
-      });
-
     })(window, document);
   </script>
 </body>
