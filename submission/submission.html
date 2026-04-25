@@ -620,8 +620,9 @@
       <div class="popup-statusbar">Done</div>
     </div>
 
+    <!-- Literally have to name banners "panels" because real adblock was catching it lmao -->
     <div id="banner-container">
-      <div class="banner left" id="leftAd">
+      <div class="banner left" id="leftPanel">
         <div class="banner-close">✕</div>
         <div class="banner-photo dog"></div>
         <div class="banner-content-mid">
@@ -631,7 +632,7 @@
         <div class="banner-btn">Search Now ▶</div>
       </div>
       
-      <div class="banner right" id="rightAd">
+      <div class="banner right" id="rightPanel">
         <div class="banner-close">✕</div>
         <div class="banner-photo monkey"></div>
         <div class="banner-content-mid"></div>
@@ -677,8 +678,8 @@
 
       var skipButton = document.getElementById('skip');
       var skipText = skipButton.querySelector('span');
-      var leftAd = document.getElementById('leftAd');
-      var rightAd = document.getElementById('rightAd');
+      var leftPanel = document.getElementById('leftPanel');
+      var rightPanel = document.getElementById('rightPanel');
       var fakePopup = document.getElementById('fake-popup');
       var popupTitle = document.getElementById('popup-title');
       var popupUrl = document.getElementById('popup-url');
@@ -961,12 +962,12 @@
         popupIsOpen = true;
 
         // Force-hide both banners and cancel any pending fade-respawns
-        leftAd.classList.remove('show');
-        leftAd.style.opacity = '1';
-        leftAd.fading = false;
-        rightAd.classList.remove('show');
-        rightAd.style.opacity = '1';
-        rightAd.fading = false;
+        leftPanel.classList.remove('show');
+        leftPanel.style.opacity = '1';
+        leftPanel.fading = false;
+        rightPanel.classList.remove('show');
+        rightPanel.style.opacity = '1';
+        rightPanel.fading = false;
 
         showWarning();
 
@@ -991,8 +992,8 @@
         bannersPaused = true;
         cooldownRunning = false;
         skipButton.style.visibility = 'hidden';
-        leftAd.classList.remove('show');
-        rightAd.classList.remove('show');
+        leftPanel.classList.remove('show');
+        rightPanel.classList.remove('show');
         stopGrandmaChat();
         sendToParent({ type: 'pause' });
       }
@@ -1042,9 +1043,9 @@
       });
 
       // Banners reset the skip button timer & re-open themselves after 2-3 seconds
-      [leftAd, rightAd].forEach(function(ad) {
-        var side = ad === leftAd ? 'left' : 'right';
-        var featureKey = ad === leftAd ? 'leftBanner' : 'rightBanner';
+      [leftPanel, rightPanel].forEach(function(ad) {
+        var side = ad === leftPanel ? 'left' : 'right';
+        var featureKey = ad === leftPanel ? 'leftBanner' : 'rightBanner';
         ad.fading = false;
         ad.addEventListener('click', function(e) {
           if (ad.fading || bannersPaused) return;
@@ -1091,7 +1092,7 @@
       });
 
       // Only right banner X resets cooldown
-      rightAd.addEventListener('click', function(e) {
+      rightPanel.addEventListener('click', function(e) {
         if (!e.target.classList.contains('banner-close')) return;
         resetCooldown();
       });
@@ -1206,16 +1207,16 @@
       function deployBanners() {
         if (features.leftBanner) {
           setTimeout(function() {
-            if (renderBanner(leftAd, 'left')) {
-              leftAd.classList.add('show');
+            if (renderBanner(leftPanel, 'left')) {
+              leftPanel.classList.add('show');
             }
           }, getRandomNumber(500, 1400));
         }
 
         if (features.rightBanner) {
           setTimeout(function() {
-            if (renderBanner(rightAd, 'right')) {
-              rightAd.classList.add('show');
+            if (renderBanner(rightPanel, 'right')) {
+              rightPanel.classList.add('show');
             }
           }, getRandomNumber(1500, 2750));
         }
