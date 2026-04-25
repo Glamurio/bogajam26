@@ -889,7 +889,7 @@
             break;
           }
         }
-        if (pick === -1) pick = pool[0];
+        if (pick === -1) return -1;
 
         activeTemplates[side] = pick;
         return pick;
@@ -935,6 +935,15 @@
           + '<div class="dont-show"><label><input type="checkbox" id="dont-show-check"> Please do not show this advertisement anymore.</label></div>';
         fakePopup.classList.add('show');
         popupIsOpen = true;
+
+        // Force-hide both banners and cancel any pending fade-respawns
+        leftAd.classList.remove('show');
+        leftAd.style.opacity = '1';
+        leftAd.fading = false;
+        rightAd.classList.remove('show');
+        rightAd.style.opacity = '1';
+        rightAd.fading = false;
+
         showWarning();
 
         var adWindowBtn = popupBody.querySelector('.popup-btn');
