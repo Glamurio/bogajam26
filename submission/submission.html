@@ -660,6 +660,21 @@
 
   <script type="text/javascript">
     (function(window, document){
+      // Feature toggles
+      var features = {
+        // Renders the left banner and isn't technically necessary
+        leftBanner: true,
+        // Renders the right banner which DOES hide the skip button
+        // When you disable this & grandma chat, the scammer can literally just press the skip button
+        rightBanner: true,
+        // Renders the grandma chat
+        // Does hide the skip button, but the scammer can technically skip if he's fast
+        grandmaChat: true,
+        // The popup when you click on a banner
+        // When you disable this, it basically acts as having opted out of that banner
+        windowPopup: true
+      };
+
       var skipButton = document.getElementById('skip');
       var skipText = skipButton.querySelector('span');
       var leftAd = document.getElementById('leftAd');
@@ -924,6 +939,15 @@
 
       var skipActivated = false;
 
+      function activateSkipButton() {
+        skipActivated = true;
+        cooldownRunning = false;
+        skipButton.style.pointerEvents = 'auto';
+        skipButton.style.opacity = '1';
+        skipText.textContent = 'Skip Ad ▶';
+        skipButton.style.setProperty('--progress', '100%');
+      }
+
       // Fake popup logic
       function openPopup(bannerEl) {
         var tpl = bannerTemplates[bannerEl.templateIndex];
@@ -1011,6 +1035,7 @@
         var checkbox = document.getElementById('dont-show-check');
         if (checkbox && checkbox.checked && currentPopupIndex >= 0) {
           dismissedTemplates[currentPopupIndex] = true;
+          if (allTemplatesDismissed()) activateSkipButton();
         }
         currentPopupIndex = -1;
         closePopup();
@@ -1019,6 +1044,7 @@
       // Banners reset the skip button timer & re-open themselves after 2-3 seconds
       [leftAd, rightAd].forEach(function(ad) {
         var side = ad === leftAd ? 'left' : 'right';
+        var featureKey = ad === leftAd ? 'leftBanner' : 'rightBanner';
         ad.fading = false;
         ad.addEventListener('click', function(e) {
           if (ad.fading || bannersPaused) return;
@@ -1026,7 +1052,8 @@
             ad.fading = true;
             ad.style.opacity = '0';
             setTimeout(function() {
-              if (bannersPaused) {
+              if (bannersPaused || !features[featureKey]) {
+                ad.classList.remove('show');
                 ad.style.opacity = '1';
                 ad.fading = false;
                 return;
@@ -1042,7 +1069,24 @@
             return;
           }
           if (ad.templateIndex === undefined) return;
-          openPopup(ad);
+          if (features.windowPopup) {
+            openPopup(ad);
+          } else {
+            // No popup - immediately dismiss this template
+            dismissedTemplates[ad.templateIndex] = true;
+            ad.fading = true;
+            ad.style.opacity = '0';
+            setTimeout(function() {
+              if (renderBanner(ad, side)) {
+                ad.style.opacity = '1';
+              } else {
+                ad.classList.remove('show');
+                ad.style.opacity = '1';
+              }
+              ad.fading = false;
+              if (allTemplatesDismissed()) activateSkipButton();
+            }, getRandomNumber(800, 1500));
+          }
         });
       });
 
@@ -1150,6 +1194,7 @@
       var grandmaInterval = null;
 
       function deployGrandma() {
+        if (!features.grandmaChat) return;
         if (grandmaInterval) clearInterval(grandmaInterval);
         grandmaInterval = setInterval(function() {
           if (bannersPaused || grandmaActive) return;
@@ -1159,17 +1204,21 @@
       }
 
       function deployBanners() {
-        setTimeout(function() {
-          if (renderBanner(leftAd, 'left')) {
-            leftAd.classList.add('show');
-          }
-        }, getRandomNumber(500, 1400));
+        if (features.leftBanner) {
+          setTimeout(function() {
+            if (renderBanner(leftAd, 'left')) {
+              leftAd.classList.add('show');
+            }
+          }, getRandomNumber(500, 1400));
+        }
 
-        setTimeout(function() {
-          if (renderBanner(rightAd, 'right')) {
-            rightAd.classList.add('show');
-          }
-        }, getRandomNumber(1500, 2750));
+        if (features.rightBanner) {
+          setTimeout(function() {
+            if (renderBanner(rightAd, 'right')) {
+              rightAd.classList.add('show');
+            }
+          }, getRandomNumber(1500, 2750));
+        }
       }
 
       window.addEventListener('message', function(event) {
