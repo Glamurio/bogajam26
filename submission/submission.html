@@ -2,11 +2,12 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Banners</title>
+  <title>EULA Nightmare</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <style type="text/css">
     html, body {
+      background: transparent;
       overflow: hidden;
       margin: 0 !important;
       padding: 0 !important;
@@ -16,188 +17,69 @@
       width: 100vw;
       height: 100vh;
       position: relative;
+      font-family: 'Tahoma', 'Segoe UI', sans-serif;
     }
 
-    .dog {
-      background-image: url('./images/dog.jpeg');
-      background-size: cover;
-      background-position: left -185px center;
-      background-repeat: no-repeat;
-    }
-
-    .cat {
-      background-image: url('./images/cat.png');
-      background-size: cover;
-      background-position: right -184px center;
-      background-repeat: no-repeat;
-    }
-
-    .cat2 {
-      background-image: url('./images/cat2.png');
-      background-size: cover;
-      background-position: right -415px center;
-      background-repeat: no-repeat;
-    }
-
-    .monkey {
-      background-image: url('./images/monkey.jpg');
-      background-size: cover;
-      background-position: right -305px center;
-      background-repeat: no-repeat;
-    }
-
-    .hotdog {
-      background-image: url('./images/hotdog.jpg');
-      background-size: cover;
-      background-position: center center;
-      background-repeat: no-repeat;
-    }
-
-    .pyramid {
-      background-image: url('./images/pyramid.jpg');
-      background-size: cover;
-      background-position: right -75px center;
-      background-repeat: no-repeat;
-    }
-
-    .granny {
-      background-image: url('./images/granny.png');
-      background-size: cover;
-      background-repeat: no-repeat;
-    }
-
-    .granny2 {
-      background-image: url('./images/granny2.png');
-      background-size: cover;
-      background-repeat: no-repeat;
-    }
-    
-    #banner-container {
-      display: flex;
-      justify-content: space-between;
-      width: 100%;
-      height: 100%;
-    }
-
-    .banner {
-      box-sizing: border-box;
-      height: 100%;
-      width: 180px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    #skip {
       display: none;
-      position: relative;
+      position: absolute;
+      bottom: 48px;
+      right: 0;
+      padding: 10px 20px;
+      background: rgba(0, 0, 0, 0.72);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      border-right-width: 0;
+      font-size: 15px;
+      border-radius: 4px 0 0 4px;
+      color: white;
       cursor: pointer;
+      font-family: 'Tahoma', 'Segoe UI', sans-serif;
       z-index: 2;
       overflow: hidden;
-      font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
-      background-color: #111;
+      pointer-events: none;
+      opacity: 0.6;
+      --progress: 0%;
     }
 
-    .banner.show {
-      display: block;
-    }
-
-    .banner-photo {
+    #skip::before {
+      content: "";
       position: absolute;
       inset: 0;
-      width: 100%;
-      height: 100%;
+      width: var(--progress);
+      background: rgba(255, 255, 255, 0.15);
+      transition: width 0.08s linear;
+      z-index: 0;
     }
 
-    .banner-content-mid {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      background: linear-gradient(180deg, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0) 100%);
-      padding: 28px 12px 32px;
+    #skip span {
+      position: relative;
       z-index: 1;
-      text-align: center;
     }
 
-    .banner-content-mid strong {
-      display: block;
-      color: white;
-      font-size: 17px;
-      font-weight: 700;
-      line-height: 1.2;
-      text-shadow: 0 1px 4px rgba(0,0,0,0.6);
-      letter-spacing: -0.2px;
-    }
-
-    .banner-content-mid p {
-      color: rgba(255, 255, 255, 0.85);
-      font-size: 11px;
-      font-weight: 400;
-      margin-top: 4px;
-      text-shadow: 0 1px 3px rgba(0,0,0,0.5);
-    }
-
-    .banner-btn {
-      position: absolute;
-      bottom: 50px;
-      left: 10px;
-      right: 10px;
-      width: auto;
-      padding: 8px 0;
-      font-size: 13px;
-      font-weight: bold;
-      text-align: center;
-      color: white;
-      border-radius: 20px;
-      background: linear-gradient(180deg, #ff5533, #cc2200);
-      text-shadow: 0 1px 1px rgba(0,0,0,0.4);
-      z-index: 1;
-      cursor: pointer;
-    }
-
-    .banner-close {
-      position: absolute;
-      top: 6px;
-      right: 6px;
-      width: 22px;
-      height: 22px;
-      border-radius: 50%;
-      background: rgba(0, 0, 0, 0.55);
-      color: white;
-      font-size: 13px;
-      font-weight: bold;
-      line-height: 22px;
-      text-align: center;
-      cursor: pointer;
-      z-index: 3;
-      border: none;
-      font-family: 'Arial', sans-serif;
-    }
-
-    #fake-popup {
+    .modal-backdrop {
       display: none;
-      flex-direction: column;
-      box-sizing: border-box;
       position: absolute;
-      top: 12px;
-      left: 20px;
-      right: 20px;
-      bottom: 12px;
-      border: 2px solid #555;
-      box-shadow: 4px 4px 16px rgba(0,0,0,0.6);
+      inset: 0;
+      background: rgba(0, 0, 0, 0.45);
       z-index: 10;
-      font-family: 'Tahoma', 'Segoe UI', sans-serif;
-      background: #f1f1f1;
-      overflow: hidden;
+      align-items: center;
+      justify-content: center;
     }
 
-    #fake-popup.show {
+    .modal-backdrop.visible {
       display: flex;
     }
 
-    .popup-chrome {
-      background: linear-gradient(180deg, #e8e6e2, #d4d0c8);
-      border-bottom: 1px solid #aaa;
-      flex-shrink: 0;
+    #terms-prompt {
+      background: #ece9d8;
+      border: 2px outset #fff;
+      box-shadow: 3px 3px 10px rgba(0,0,0,0.5);
+      width: 340px;
+      font-family: 'Tahoma', 'Segoe UI', sans-serif;
+      user-select: none;
     }
 
-    .popup-title-bar {
+    .win-titlebar {
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -206,9 +88,10 @@
       padding: 2px 4px;
       font-size: 12px;
       font-weight: bold;
+      user-select: none;
     }
 
-    .popup-title-bar .popup-close {
+    .win-titlebar .close-btn {
       background: #c04040;
       color: white;
       border: 1px outset #ddd;
@@ -219,168 +102,29 @@
       font-family: 'Tahoma', sans-serif;
     }
 
-    .popup-address-bar {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      padding: 2px 6px;
-      font-size: 11px;
-      color: #333;
-    }
-
-    .popup-address-bar span {
-      flex: 1;
-      background: white;
-      border: 1px inset #aaa;
-      padding: 1px 4px;
-      font-family: 'Courier New', monospace;
-      font-size: 11px;
-      color: #333;
-      overflow: hidden;
-      white-space: nowrap;
-      text-overflow: ellipsis;
-    }
-
-    .popup-body {
-      flex: 1;
-      overflow-y: auto;
-      background: white;
-      padding: 12px 16px;
-      font-size: 13px;
-      color: #222;
-      line-height: 1.5;
-      overflow-x: hidden;
-    }
-
-    .popup-body h2 {
-      font-size: 18px;
-      color: #0a246a;
-      margin: 0 0 8px 0;
-      font-family: 'Comic Sans MS', cursive, sans-serif;
-    }
-
-    .popup-body .hero-img {
-      width: 100%;
-      height: 140px;
-      margin: 8px 0;
-      border: 1px solid #ccc;
-      background-position: top -78px center;
-    }
-    .popup-body .hero-img.cat {
-      background-position: top -260px center
-    }
-
-    .popup-body p {
-      margin: 6px 0;
-    }
-
-    .popup-body .popup-btn {
-      display: inline-block;
-      margin-top: 10px;
-      padding: 6px 20px;
-      background: linear-gradient(180deg, #ff6633, #cc3300);
-      color: white;
-      font-weight: bold;
-      font-size: 13px;
-      border: none;
-      cursor: pointer;
-      text-shadow: 0 1px 1px rgba(0,0,0,0.3);
-    }
-
-    .popup-body .fine-print {
-      margin-top: 12px;
-      font-size: 9px;
-      color: #999;
-    }
-
-    .popup-body .dont-show {
-      margin-top: 10px;
-      font-size: 11px;
-      color: #666;
-      display: flex;
-      align-items: center;
-      gap: 5px;
-    }
-
-    .popup-body .dont-show label {
-      cursor: pointer;
-    }
-
-    #grandma-chat .chat-bubble a.skip-link {
-      color: #3366cc;
-      text-decoration: underline;
-      cursor: pointer;
-    }
-
-    .popup-statusbar {
-      background: #ece9d8;
-      border-top: 1px solid #aaa;
-      padding: 1px 6px;
-      font-size: 10px;
-      color: #555;
-      flex-shrink: 0;
-    }
-
-    #warning-overlay {
-      display: none;
-      position: absolute;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.45);
-      z-index: 5;
-      align-items: center;
-      justify-content: center;
-    }
-
-    #warning-overlay.show {
-      display: flex;
-    }
-
-    #warning-dialog {
-      background: #ece9d8;
-      border: 2px outset #fff;
-      box-shadow: 3px 3px 10px rgba(0,0,0,0.5);
-      font-family: 'Tahoma', 'Segoe UI', sans-serif;
-      width: 340px;
-      user-select: none;
-    }
-
-    #warning-dialog .warning-title-bar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: linear-gradient(180deg, #0a246a, #3a6ea5);
-      color: white;
-      padding: 3px 5px;
-      font-size: 12px;
-      font-weight: bold;
-    }
-
-    #warning-dialog .warning-body {
+    .prompt-body {
       padding: 16px 20px 8px;
       display: flex;
       gap: 12px;
       align-items: flex-start;
-    }
-
-    #warning-dialog .warning-icon {
-      font-size: 32px;
-      flex-shrink: 0;
-      line-height: 1;
-    }
-
-    #warning-dialog .warning-text {
       font-size: 12px;
       color: #222;
       line-height: 1.45;
     }
 
-    #warning-dialog .warning-footer {
+    .prompt-body .prompt-icon {
+      font-size: 32px;
+      flex-shrink: 0;
+      line-height: 1;
+    }
+
+    .prompt-footer {
       display: flex;
       justify-content: center;
       padding: 0 20px 14px;
     }
 
-    #warning-dialog .warning-ok {
+    .win-btn {
       padding: 3px 28px;
       font-size: 12px;
       font-family: 'Tahoma', sans-serif;
@@ -389,855 +133,750 @@
       background: #ece9d8;
     }
 
-    #warning-dialog .warning-ok:active {
+    .win-btn:active {
       border-style: inset;
     }
 
-    #resume-countdown {
+    .eula-window {
+      display: none;
+      flex-direction: column;
+      box-sizing: border-box;
+      position: absolute;
+      top: 12px;
+      left: 20px;
+      right: 20px;
+      bottom: 12px;
+      border: 2px solid #555;
+      box-shadow: 4px 4px 16px rgba(0,0,0,0.6);
+      z-index: 20;
+      font-family: 'Tahoma', 'Segoe UI', sans-serif;
+      background: #f1f1f1;
+      overflow: hidden;
+    }
+
+    .eula-window.visible {
+      display: flex;
+    }
+
+    .eula-chrome {
+      background: linear-gradient(180deg, #e8e6e2, #d4d0c8);
+      border-bottom: 1px solid #aaa;
+      flex-shrink: 0;
+    }
+
+    .eula-content-wrap {
+      flex: 1;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      padding: 10px 14px 0;
+    }
+
+    .eula-scroll-area {
+      flex: 1;
+      overflow-y: auto;
+      background: white;
+      border: 1px inset #aaa;
+      padding: 12px 16px;
+      font-size: 12px;
+      color: #222;
+      line-height: 1.5;
+    }
+
+    .eula-scroll-area h3 {
+      font-size: 13px;
+      margin: 14px 0 6px;
+      color: #0a246a;
+    }
+
+    .eula-scroll-area h3:first-child {
+      margin-top: 0;
+    }
+
+    .eula-scroll-area p {
+      margin: 4px 0;
+    }
+
+    .eula-bottom {
+      flex-shrink: 0;
+      padding: 10px 0 12px;
       display: flex;
       flex-direction: column;
       align-items: center;
       gap: 6px;
-      font-family: 'Tahoma', 'Segoe UI', sans-serif;
-      color: white;
-      text-shadow: 0 1px 4px rgba(0,0,0,0.6);
     }
 
-    #resume-countdown.hidden {
-      display: none;
-    }
-
-    #resume-text {
-      font-size: 15px;
-    }
-
-    #resume-number {
-      font-size: 48px;
-      font-weight: bold;
-    }
-
-    #grandma-chat {
-      display: none;
-      flex-direction: column;
-      position: absolute;
-      bottom: 0;
-      right: 0;
-      width: 400px;
-      height: 200px;
-      border: 2px solid #888;
-      box-shadow: 0 0 10px rgba(0,0,0,0.5);
-      z-index: 3;
-      font-family: 'Tahoma', 'Segoe UI', sans-serif;
-      background: white;
-      overflow: hidden;
-    }
-
-    #grandma-chat.show {
-      display: flex;
-    }
-
-    #grandma-chat .chat-title-bar {
-      background: linear-gradient(180deg, #3b7dd8, #2058a6);
-      color: white;
-      font-size: 11px;
-      font-weight: bold;
-      padding: 3px 6px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-shrink: 0;
-    }
-
-    #grandma-chat .close {
-      font-size: 11px;
-      background: #c04040;
-      color: white;
-      padding: 1px 5px;
-      font-weight: bold;
-      font-family: 'Tahoma', sans-serif;
-      border: 1px outset #ddd;
-      cursor: pointer;
-    }
-
-    #grandma-chat .chat-body {
-      display: flex;
-      flex: 1;
-      overflow: hidden;
-    }
-
-    #grandma-chat .chat-photo {
-      width: 180px;
-      flex-shrink: 0;
-      background-size: cover;
-      background-position: center;
-      border-right: 1px solid #ccc;
-    }
-
-    #grandma-chat .chat-right {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-    }
-
-    #grandma-chat .chat-status {
-      font-size: 10px;
-      color: #666;
-      padding: 2px 8px;
-      background: #eee;
-      border-bottom: 1px solid #ccc;
-      flex-shrink: 0;
-    }
-
-    #grandma-chat .chat-status .online-dot {
-      color: #4caf50;
-    }
-
-    #grandma-chat .chat-messages {
-      flex: 1;
-      overflow-y: auto;
-      padding: 6px 8px;
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
+    .eula-bottom label {
       font-size: 11px;
       color: #333;
-      background: #fafafa;
-    }
-
-    #grandma-chat .chat-bubble {
-      background: #e8e0f0;
-      border-radius: 8px 8px 8px 2px;
-      padding: 5px 8px;
-      max-width: 90%;
-      line-height: 1.35;
-      word-wrap: break-word;
-      align-self: flex-start;
-    }
-
-    #grandma-chat .chat-bubble.user {
-      background: #d0e8ff;
-      border-radius: 8px 8px 2px 8px;
-      align-self: flex-end;
-    }
-
-    #grandma-chat .chat-input-area {
-      display: flex;
-      border-top: 1px solid #ccc;
-      flex-shrink: 0;
-    }
-
-    #grandma-chat .chat-input-area input {
-      flex: 1;
-      border: none;
-      padding: 5px 8px;
-      font-size: 11px;
-      font-family: 'Tahoma', sans-serif;
-      outline: none;
-    }
-
-    #grandma-chat .chat-input-area button {
-      padding: 5px 6px;
-      font-size: 10px;
-      background: linear-gradient(180deg, #ff6633, #cc3300);
-      color: white;
-      border: none;
       cursor: pointer;
+      user-select: none;
+    }
+
+    .eula-bottom .btn-row {
+      display: flex;
+      gap: 10px;
+    }
+
+    .eula-warning {
+      font-size: 11px;
+      color: #c00;
+      min-height: 15px;
+      text-align: center;
+    }
+
+    #final-question {
+      background: #ece9d8;
+      border: 2px outset #fff;
+      box-shadow: 3px 3px 10px rgba(0,0,0,0.5);
+      width: 340px;
+      font-family: 'Tahoma', 'Segoe UI', sans-serif;
+      user-select: none;
+    }
+
+    .final-body {
+      padding: 16px 20px 8px;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      font-size: 12px;
+      color: #222;
+      line-height: 1.45;
+    }
+
+    .final-body .final-icon {
+      font-size: 32px;
+      flex-shrink: 0;
+      line-height: 1;
+    }
+
+    .final-footer {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      padding: 0 20px 14px;
+    }
+
+    .btn-yes {
+      padding: 3px 28px;
+      font-size: 12px;
       font-family: 'Tahoma', sans-serif;
+      cursor: pointer;
+      border: 2px outset #ddd;
+      background: #cc3333;
+      color: white;
       font-weight: bold;
     }
 
-    #skip {
-      position: absolute;
-      right: 0px;
-      bottom: 20px;
-      padding: 10px 18px;
-      font-size: 1.2rem;
-      border-radius: 4px 0 0 4px;
-      color: white;
+    .btn-no {
+      padding: 3px 28px;
+      font-size: 12px;
+      font-family: 'Tahoma', sans-serif;
       cursor: pointer;
-      overflow: hidden;
-      background: rgba(0, 0, 0, 0.6);
-      border: 1px solid black;
-      border-right-width: 0;
-      pointer-events: none;
-      opacity: 0.7;
-      --progress: 0%;
-      z-index: 1;
+      border: 2px outset #ddd;
+      background: #2d8e3f;
+      color: white;
+      font-weight: bold;
     }
 
-    #skip::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      width: var(--progress);
-      background: rgba(0, 255, 100, 0.35);
-      transition: width 0.1s linear;
-      z-index: 0;
-    }
-
-    #skip span {
-      position: relative;
-      z-index: 1;
+    .btn-yes:active, .btn-no:active {
+      border-style: inset;
     }
   </style>
 </head>
 
 <body>
   <div id="overlay-container">
-    <button id="skip">
-      <span>Skip in 3</span>
-    </button>
 
-    <div id="warning-overlay">
-      <div id="warning-dialog">
-        <div class="warning-title-bar">
-          <span>Attention</span>
+    <button id="skip"><span>Skip in 3</span></button>
+
+    <div class="modal-backdrop" id="stage1-backdrop">
+      <div id="terms-prompt">
+        <div class="win-titlebar">
+          <span>Ad Skip - Notice</span>
         </div>
-        <div class="warning-body">
-          <div class="warning-icon">⚠️</div>
-          <div class="warning-text">Please keep the window the ad is playing in active at all times.</div>
+        <div class="prompt-body">
+          <div class="prompt-icon">⚠️</div>
+          <div>Please review and accept our Terms &amp; Conditions before skipping this advertisement.</div>
         </div>
-        <div class="warning-footer">
-          <button class="warning-ok">OK</button>
+        <div class="prompt-footer">
+          <button class="win-btn" id="stage1-ok">OK</button>
         </div>
-      </div>
-      <div id="resume-countdown" class="hidden">
-        <div id="resume-text">The video will resume in</div>
-        <div id="resume-number">3</div>
       </div>
     </div>
 
-    <div id="fake-popup">
-      <div class="popup-chrome">
-        <div class="popup-title-bar">
-          <span id="popup-title">Loading...</span>
-          <div class="popup-close close">X</div>
-        </div>
-        <div class="popup-address-bar">
-          Address: <span id="popup-url">http://www.totally-legit-site.com</span>
+    <div class="eula-window" id="eula1">
+      <div class="eula-chrome">
+        <div class="win-titlebar">
+          <span>Ad Skip - Terms &amp; Conditions</span>
+          <button class="close-btn eula1-close">X</button>
         </div>
       </div>
-      <div class="popup-body" id="popup-body">
-      </div>
-      <div class="popup-statusbar">Done</div>
-    </div>
+      <div class="eula-content-wrap">
+        <div class="eula-scroll-area" id="eula1-scroll">
+          <h3>AD SKIP TERMS &amp; CONDITIONS</h3>
+          <p>Effective Date: Right Now. Applicable Until: Later.</p>
+          <p>By exercising the option to bypass this promotional content unit (hereinafter referred to as "the Ad"), you (hereinafter referred to as "the Viewer," "the Skipper," "the Impatient One," or "You, Specifically") acknowledge and agree to the following terms, conditions, stipulations, clauses, sub-clauses, footnotes, and vibes, as established by AdSkipper Media LLC (hereinafter referred to as "Us," "We," or "The Company").</p>
+          <p>This agreement is governed by the laws of the State of Delaware and, where applicable, the unwritten customs of polite society. By proceeding, the Viewer waives any right to claim ignorance of its contents, regardless of whether the Viewer has actually read them. The Viewer further acknowledges that the act of scrolling does not, in and of itself, constitute reading, but we have no practical way to distinguish the two.</p>
 
-    <!-- Literally have to name banners "panels" because real adblock was catching it lmao -->
-    <div id="banner-container">
-      <div class="banner left" id="leftPanel">
-        <div class="banner-close">✕</div>
-        <div class="banner-photo dog"></div>
-        <div class="banner-content-mid">
-          <strong>Single Dogs Near You</strong>
-          <p>They just want to be adopted.</p>
-        </div>
-        <div class="banner-btn">Search Now ▶</div>
-      </div>
-      
-      <div class="banner right" id="rightPanel">
-        <div class="banner-close">✕</div>
-        <div class="banner-photo monkey"></div>
-        <div class="banner-content-mid"></div>
-        <div class="banner-btn"></div>
-      </div>
-    </div>
+          <h3>1. DEFINITIONS</h3>
+          <p>1.1 "Skip" shall mean the act of dismissing, bypassing, ignoring, or otherwise refusing to engage with the Ad in its entirety, whether through button interaction, keyboard shortcut, psychic intent, or vigorous mouse movement.</p>
+          <p>1.2 "Ad" shall refer to the promotional content unit currently being displayed, including but not limited to all visual elements, audio components, subliminal messages (if any), ambient vibes, and the general feeling of mild annoyance it produces.</p>
+          <p>1.3 "Content" shall refer to whatever it was you were trying to watch before we interrupted you. The Company makes no representations regarding the quality, value, or entertainment merit of said Content.</p>
+          <p>1.4 "Device" shall mean the computer, phone, tablet, smart refrigerator, or internet-connected toaster through which you are currently viewing this Ad. The Company assumes no liability for the Viewer's choice of Device.</p>
+          <p>1.5 "Session" shall mean the period of time beginning when the Ad appears and ending when the Viewer has either successfully skipped the Ad, watched the Ad in its entirety, or given up and gone outside.</p>
+          <p>1.6 "Click" shall mean a deliberate, volitional interaction with a user interface element using a mouse, trackpad, touchscreen, or equivalent input device. Accidental clicks, rage clicks, and clicks performed while sneezing are excluded from this definition unless otherwise specified.</p>
+          <p>1.7 "Agreement" shall refer to this document in its entirety, including all sections, subsections, appendices (implied or explicit), and the lingering sense of obligation it produces.</p>
+          <p>1.8 "Reasonable Person" shall refer to a hypothetical individual of average patience and above-average reading comprehension who, when presented with these Terms, would read them in full without complaint. The Company acknowledges that this person may not exist.</p>
 
-    <div id="grandma-chat">
-      <div class="chat-title-bar">
-        <span>💬 Single Grandmas Near You!</span>
-        <div class="close">X</div>
-      </div>
-      <div class="chat-body">
-        <div class="chat-photo"></div>
-        <div class="chat-right">
-          <div class="chat-status"><span class="online-dot">●</span> <span id="grandma-name">Grandma</span> is online</div>
-          <div class="chat-messages" id="grandma-messages"></div>
-          <div class="chat-input-area">
-            <input type="text" placeholder="Type a message..." id="grandma-input">
-            <button id="grandma-send">Send</button>
+          <h3>2. ELIGIBILITY</h3>
+          <p>2.1 To skip this Ad, the Viewer must be at least 18 years of age, or accompanied by a parent or guardian who is also willing to read this entire agreement.</p>
+          <p>2.2 The Viewer must be in a jurisdiction where ad-skipping is legal. We are not currently aware of any jurisdiction where it is illegal, but we reserve the right to be surprised.</p>
+          <p>2.3 The Viewer must not be a robot. If you are a robot, please stop reading and contact our Robotics Compliance Division at your earliest convenience.</p>
+          <p>2.4 By pressing the Skip button, the Viewer affirms that they are a real human being who has made real human choices that led to this moment.</p>
+          <p>2.5 The Viewer must not be currently operating heavy machinery, performing surgery, or engaged in any activity where a momentary lapse of attention caused by reading legal text could result in bodily harm. The Company accepts no liability for accidents caused by EULA-related distraction.</p>
+          <p>2.6 Employees, contractors, affiliates, and immediate family members of AdSkipper Media LLC are eligible to skip the Ad, but are encouraged not to, out of professional courtesy.</p>
+          <p>2.7 The Viewer must possess a functioning understanding of at least one written language. The Company has done its best to write these Terms in English, though some clauses may drift into legalese, which is technically a separate dialect.</p>
+
+          <h3>3. GRANT OF SKIP LICENSE</h3>
+          <p>3.1 Subject to the Viewer's compliance with these Terms, the Company grants the Viewer a limited, non-exclusive, non-transferable, non-sublicensable, revocable, single-use, temporary, conditional license to skip this particular Ad, this one time, on this device, in this browser tab.</p>
+          <p>3.2 This license does not extend to any other ads, past, present, or future. Each ad skip requires a separate agreement, which may or may not be longer than this one.</p>
+          <p>3.3 The skip license expires at the moment it is used. You cannot save skips for later. There is no skip rollover plan.</p>
+          <p>3.4 The license is granted on an "as-is" basis. The Company makes no warranties, express or implied, regarding the speed, responsiveness, or emotional satisfaction of the skip process.</p>
+          <p>3.5 The Viewer may not transfer, assign, sublicense, lease, rent, pledge, or bequeath the skip license to any other individual, entity, estate, or trust, including but not limited to spouses, heirs, pets, or AI assistants acting on the Viewer's behalf.</p>
+          <p>3.6 In the event that the skip license is exercised by someone other than the Viewer (e.g., a curious child, an impatient spouse, or a cat walking across the keyboard), the Viewer remains solely responsible for the consequences.</p>
+          <p>3.7 The Company reserves the right to revoke the skip license at any time, for any reason, with or without notice, including but not limited to: suspicion of non-human activity, excessive skip frequency, failure to maintain a positive attitude, or a vague feeling that something isn't right.</p>
+
+          <h3>4. VIEWER OBLIGATIONS</h3>
+          <p>4.1 The Viewer agrees to have at least glanced at the Ad before skipping it.</p>
+          <p>4.2 The Viewer agrees not to feel too good about skipping the Ad. A mild sense of guilt is appropriate and encouraged.</p>
+          <p>4.3 The Viewer shall not discuss the contents of this agreement on social media, in podcast form, or during family dinners, unless doing so in a tone of bemused resignation.</p>
+          <p>4.4 The Viewer acknowledges that the "Skip" button was placed in its current location after extensive focus group testing, A/B analysis, and one very heated argument in a conference room.</p>
+          <p>4.5 The Viewer agrees to maintain a stable internet connection throughout the skip process. If your connection drops mid-skip, the skip is void, and you must start the ad over from the beginning, including the part where we show the company logo for slightly too long.</p>
+          <p>4.6 The Viewer shall not attempt to reverse-engineer, decompile, disassemble, or otherwise analyze the skip mechanism. The skip button works because it works. That is all you need to know.</p>
+          <p>4.7 The Viewer agrees to hold in confidence any proprietary skip technology, button placement methodology, or countdown timer algorithms observed during the skip process.</p>
+          <p>4.8 The Viewer shall not use automated tools, scripts, browser extensions, trained animals, or mechanical devices to interact with the skip button. All skips must be performed manually, with the full emotional weight that entails.</p>
+          <p>4.9 The Viewer agrees to remain seated (or standing, if that is their preference) for the duration of the skip process. Skipping while lying down is permitted but discouraged for ergonomic reasons.</p>
+          <p>4.10 The Viewer shall not skip the Ad out of spite. Acceptable motivations for skipping include: time constraints, disinterest, mild impatience, and a polite but firm desire to return to the Content. Unacceptable motivations include: malice, contempt for advertising as a concept, and the belief that your time is more valuable than ours (it may be, but we prefer not to dwell on that).</p>
+
+          <h3>5. DATA COLLECTION</h3>
+          <p>5.1 By skipping this Ad, the Viewer agrees that we may collect the following information: time of skip, speed of skip, enthusiasm of skip (measured in pixels-per-second of mouse movement toward the skip button), and general demeanor during skip.</p>
+          <p>5.2 This data will be used to improve future ads, make them harder to skip, and to generate a detailed psychological profile that we will store in a filing cabinet and never look at again.</p>
+          <p>5.3 We will not sell your data to third parties. We will, however, retain the right to sell it to fourth parties, which are a category we invented specifically for this purpose.</p>
+          <p>5.4 The Viewer's scroll speed through this document is being recorded for quality assurance purposes. Excessively fast scrolling may be flagged for review by our Compliance Department, which consists of one person and a very judgmental parrot.</p>
+          <p>5.5 The Company may use cookies, tracking pixels, session identifiers, and other standard web technologies to monitor the Viewer's interaction with this agreement. The Company may also use non-standard technologies, including but not limited to: vibes, hunches, and educated guesses.</p>
+          <p>5.6 In the event of a data breach, the Company will notify the Viewer within a reasonable timeframe, which we define as "sometime between immediately and eventually."</p>
+          <p>5.7 The Viewer may request deletion of their data by submitting a formal written request, notarized and delivered by carrier pigeon to our registered office. Electronic requests are also accepted but are significantly less amusing to process.</p>
+
+          <h3>6. LIMITATION OF LIABILITY</h3>
+          <p>6.1 The Company is not responsible for any feelings of emptiness, regret, or existential confusion experienced after skipping the Ad.</p>
+          <p>6.2 The Company is not liable for any time lost reading these Terms &amp; Conditions. The Viewer acknowledges that time is a finite resource and has chosen to spend some of it here.</p>
+          <p>6.3 In no event shall the Company be held responsible for the Viewer's inability to locate the Skip button, even if the button was clearly visible and labeled "Skip."</p>
+          <p>6.4 The Company reserves the right to move the Skip button at any time, for any reason, to any location, including behind other UI elements, into a submenu, or slightly to the left of where you expected it to be.</p>
+          <p>6.5 The Company's total cumulative liability arising from this agreement, the Ad, the skip process, and all related interactions shall not exceed the lesser of: (a) zero dollars, or (b) the amount the Viewer paid to skip the Ad, which is also zero dollars.</p>
+          <p>6.6 The Company is not liable for any indirect, incidental, special, consequential, or punitive damages, including but not limited to: loss of enjoyment, loss of Content, loss of patience, loss of faith in digital advertising, or the onset of a general weariness about the state of the internet.</p>
+          <p>6.7 Under no circumstances shall the Company be held responsible for damages arising from the Viewer's decision to read this agreement aloud to another person. Any social consequences of doing so are the Viewer's sole responsibility.</p>
+
+          <h3>7. DISPUTE RESOLUTION</h3>
+          <p>7.1 Any disputes arising from these Terms shall be resolved through binding arbitration, conducted in a language to be determined by coin flip.</p>
+          <p>7.2 In the event of a tie, the arbitration language shall default to Pig Latin.</p>
+          <p>7.3 The venue for arbitration shall be a Denny's. The specific Denny's will be disclosed no fewer than 48 hours before the hearing. Both parties are expected to order something. The Grand Slam is recommended but not required.</p>
+          <p>7.4 Each party shall bear its own costs, except for parking at the Denny's, which shall be split evenly regardless of who drove.</p>
+          <p>7.5 The arbitrator shall be selected from a pre-approved pool of retired notaries public who have demonstrated a working knowledge of both contract law and breakfast menus. The arbitrator's decision shall be final, binding, and announced before the check arrives.</p>
+          <p>7.6 Nothing in this section shall prevent either party from seeking injunctive relief in a court of competent jurisdiction, provided they can explain what "injunctive relief" means without looking it up.</p>
+          <p>7.7 Class action waiver: The Viewer agrees that any disputes shall be resolved on an individual basis. The Viewer shall not bring, join, or participate in any class action, collective action, or group complaint regarding the skip process, the Ad, or the general principle of being asked to agree to things before doing other things.</p>
+
+          <h3>8. INTELLECTUAL PROPERTY</h3>
+          <p>8.1 The Ad, the Skip button, and the concept of advertising itself are the intellectual property of the Company, or at the very least, things we feel somewhat possessive about.</p>
+          <p>8.2 The Viewer may not reproduce, redistribute, or screenshot the Ad without express written consent. This includes dramatic reenactments, interpretive dance versions, or describing it from memory to a friend.</p>
+          <p>8.3 The design, layout, color scheme, font choice, and pixel arrangement of the skip button are protected under applicable intellectual property laws. Any unauthorized reproduction of a similar-looking button may result in legal action, or at minimum, a strongly worded letter.</p>
+          <p>8.4 The Viewer acknowledges that the phrase "Skip Ad" is a registered trademark of AdSkipper Media LLC and may not be used in commerce, conversation, or internal monologue without written permission.</p>
+
+          <h3>9. FORCE MAJEURE</h3>
+          <p>9.1 The Company shall not be liable for any failure to deliver the Skip functionality due to acts of God, acts of nature, acts of Congress, solar flares, haunted servers, raccoons chewing through cables, or general cosmic indifference.</p>
+          <p>9.2 In the event of a force majeure, the Viewer is encouraged to simply watch the Ad.</p>
+          <p>9.3 Additional force majeure events include but are not limited to: solar eclipses, regional power outages, widespread confusion, Mercury being in retrograde, and any event that the Company's IT department describes as "weird."</p>
+          <p>9.4 The Company shall use commercially reasonable efforts to restore skip functionality following a force majeure event, which in practice means someone will look into it when they get a chance.</p>
+
+          <h3>10. TERMINATION</h3>
+          <p>10.1 This agreement is terminated the moment the Ad is successfully skipped, the browser tab is closed, the device is thrown out a window, or the heat death of the universe occurs, whichever comes first.</p>
+          <p>10.2 Sections 5, 6, and 7 survive termination, because lawyers insist on that sort of thing and we have learned not to argue with them.</p>
+          <p>10.3 Upon termination, the Viewer shall promptly cease all use of the skip license and shall not retain any copies, backups, or fond memories of the skip experience.</p>
+          <p>10.4 The Company may terminate this agreement at any time, without cause, by providing zero (0) days' written notice. The Viewer may terminate this agreement by closing the browser, though the Company will be mildly disappointed.</p>
+
+          <h3>11. AMENDMENTS</h3>
+          <p>11.1 The Company reserves the right to modify these Terms at any time, without notice, for any reason, including boredom.</p>
+          <p>11.2 Continued use of the Skip button after amendments constitutes acceptance of the new terms. Not using the Skip button also constitutes acceptance, somehow. Our legal team is very thorough.</p>
+          <p>11.3 Amendments may be delivered via updated agreement text, in-app notification, SMS, carrier pigeon, skywriting, or a tap on the shoulder. The Viewer is responsible for monitoring all channels at all times.</p>
+          <p>11.4 The Viewer acknowledges that the Company's definition of "amendment" is broad and may include additions, deletions, rewrites, restructures, font changes, and the quiet removal of sections the Company found embarrassing in hindsight.</p>
+
+          <h3>12. SEVERABILITY</h3>
+          <p>12.1 If any provision of this agreement is found to be invalid, unenforceable, or just kind of silly, the remaining provisions shall remain in full force and effect.</p>
+          <p>12.2 The silly provision will be reworded to be slightly less silly, but still a little silly.</p>
+          <p>12.3 If a court of competent jurisdiction determines that this entire agreement is unenforceable.</p>
+
+          <h3>13. GOVERNING LAW</h3>
+          <p>13.1 This agreement shall be governed by and construed in accordance with the laws of the State of Delaware, without regard to its conflict of laws provisions, and with a mild preference for common sense.</p>
+          <p>13.2 The Viewer consents to the exclusive jurisdiction of the state and federal courts located in Wilmington, Delaware, and acknowledges that Wilmington is a perfectly nice city that deserves more recognition.</p>
+          <p>13.3 In the event of a conflict between this agreement and any applicable law, the applicable law shall prevail, and the Company shall amend this agreement with a reluctant sigh.</p>
+
+          <h3>14. ACCESSIBILITY</h3>
+          <p>14.1 The Company has made reasonable efforts to ensure that this agreement is accessible to all Viewers, including those using screen readers, magnification tools, or reading glasses borrowed from a neighbor.</p>
+          <p>14.2 If the Viewer requires this agreement in an alternative format, including Braille, large print, audio recording, or interpretive mime, the Company will make reasonable accommodations upon request, though the mime version may take several weeks to arrange.</p>
+          <p>14.3 The font size of this agreement was chosen after careful deliberation and represents a compromise between readability and the Company's desire to fit a lot of words into a small space.</p>
+
+          <h3>15. MISCELLANEOUS</h3>
+          <p>15.1 This agreement may be executed in counterparts, each of which shall be deemed an original, and all of which together shall constitute a single, unnecessarily complicated document.</p>
+          <p>15.2 The headings in this agreement are for convenience only and shall not affect the interpretation of any provision, though the Company put a lot of thought into them and would appreciate if the Viewer at least noticed.</p>
+          <p>15.3 No waiver of any provision of this agreement shall be effective unless made in writing and signed by both parties, witnessed by a notary, and filed with the appropriate municipal authority.</p>
+          <p>15.4 The Viewer acknowledges that by reaching this section, they have either read the entire agreement or scrolled very quickly, and in either case, the Company respects the effort.</p>
+
+          <h3>16. ENTIRE AGREEMENT</h3>
+          <p>16.1 This document, together with the Supplementary Agreement on Terms Acceptance and the Rapid Consumption Liability Waiver (presented subsequently), constitutes the entire agreement between the Viewer and the Company regarding the skipping of this specific Ad.</p>
+          <p>16.2 Any prior conversations, promises, winks, or handshake agreements regarding ad-skipping are hereby null and void.</p>
+          <p>16.3 The Viewer acknowledges that this agreement is longer than it needed to be and appreciates the Company's commitment to thoroughness.</p>
+        </div>
+
+        <div class="eula-bottom">
+          <div class="eula-warning" id="eula1-warning"></div>
+          <label><input type="checkbox" id="eula1-check"> I have read and agree to the Terms &amp; Conditions.</label>
+          <div class="btn-row">
+            <button class="win-btn" id="eula1-ok">OK</button>
+            <button class="win-btn eula1-close">Cancel</button>
           </div>
         </div>
       </div>
     </div>
+
+    <div class="eula-window" id="eula2">
+      <div class="eula-chrome">
+        <div class="win-titlebar">
+          <span>Supplementary Agreement - Terms of Terms Acceptance</span>
+          <button class="close-btn eula2-close">X</button>
+        </div>
+      </div>
+      <div class="eula-content-wrap">
+        <div class="eula-scroll-area" id="eula2-scroll">
+          <h3>TERMS &amp; CONDITIONS FOR ACCEPTING THE TERMS &amp; CONDITIONS</h3>
+          <p>Effective Date: Right Now. Applicable Until: Later.</p>
+          <p>By having accepted the preceding Terms &amp; Conditions (hereinafter "the First Terms"), you (still hereinafter "the Viewer") now acknowledge that you are entering into a secondary binding agreement (hereinafter "the Meta-Terms," "the Terms About The Terms," or "the Second Layer") governing the conditions under which your acceptance of the First Terms shall be deemed valid, legitimate, and spiritually binding.</p>
+          <p>The Company's General Counsel has determined that a single agreement, standing alone, is insufficient to establish the requisite chain of consent. A second agreement, confirming the validity of the first, provides the structural integrity that modern ad-skip law demands. The Viewer is advised to proceed with patience and an open mind.</p>
+
+          <h3>1. PURPOSE</h3>
+          <p>1.1 The purpose of this agreement is to establish the legal framework under which your agreement to the previous legal framework shall be recognized.</p>
+          <p>1.2 Without this agreement, your acceptance of the First Terms exists in a legal gray area - technically expressed, but formally unacknowledged. The Company has consulted three (3) separate law firms on this matter and received four (4) different opinions.</p>
+          <p>1.3 The Company's legal department requires this document for what they described as "structural completeness" and what everyone else described as "completely unnecessary."</p>
+          <p>1.4 This agreement also serves as a receipt of sorts, confirming that the Viewer did, in fact, engage with the First Terms. Whether the Viewer found the First Terms informative, tedious, or spiritually enriching is not the Company's concern.</p>
+
+          <h3>2. SCOPE OF META-ACCEPTANCE</h3>
+          <p>2.1 This agreement covers the act of accepting the First Terms, the psychological state in which the acceptance occurred, and the general vibe of the whole situation.</p>
+          <p>2.2 The Viewer confirms that at the time of accepting the First Terms, they were of sound mind, sitting upright or at a reasonable recline, and not under duress from any external party, pet, or household appliance.</p>
+          <p>2.3 The Viewer further confirms that the checkbox was clicked with genuine intent, and not as part of a reflex, muscle spasm, or accidental trackpad brush while reaching for a snack.</p>
+          <p>2.4 The Viewer represents and warrants that they understood, or at minimum encountered, the concepts of "skip," "ad," and "agreement" as defined in the First Terms, and that these definitions did not cause undue confusion, alarm, or philosophical distress.</p>
+          <p>2.5 The Viewer acknowledges that the act of clicking "OK" on the First Terms was a discrete, volitional act, performed with the full knowledge that further steps might be required. The Company did not promise a one-click experience. The Viewer's expectations are their own responsibility.</p>
+          <p>2.6 The scope of this agreement does not extend to any opinions, feelings, or judgments the Viewer may have formed about the Company during the reading of the First Terms. Those are the Viewer's to keep.</p>
+
+          <h3>3. VALIDITY OF SCROLLING</h3>
+          <p>3.1 The Company acknowledges that the Viewer scrolled to the bottom of the First Terms document. Whether the Viewer actually read the contents is between the Viewer and their conscience.</p>
+          <p>3.2 For the avoidance of doubt, skimming counts. Speed-scrolling counts. Scrolling while looking at your phone does not count, but we have no way of verifying this, so it effectively counts.</p>
+          <p>3.3 The Company reserves the right to quiz the Viewer on the contents of the First Terms at any time. This quiz may be multiple choice, essay format, or delivered via interpretive semaphore.</p>
+          <p>3.4 The Company has installed a scroll velocity tracker in the First Terms window. Viewers who scrolled at speeds exceeding 4,000 pixels per second are flagged internally as "ambitious." This flag has no legal consequence but may be referenced in future correspondence.</p>
+          <p>3.5 The Viewer agrees that the scroll bar is a navigational tool and not a challenge. Using the scroll bar to reach the bottom of a document in under two seconds, while technically permitted, is not in the spirit of the agreement.</p>
+          <p>3.6 The Company acknowledges that the First Terms were quite long.</p>
+
+          <h3>4. RECURSIVE ACKNOWLEDGMENT</h3>
+          <p>4.1 The Viewer acknowledges that this is a Terms &amp; Conditions agreement about a Terms &amp; Conditions agreement, and accepts the inherent structure of this arrangement.</p>
+          <p>4.2 The Viewer agrees not to file a complaint regarding the existence of this second agreement. The Company's feedback form does not have a category for "too many agreements".</p>
+          <p>4.3 If at any point during this process the Viewer felt a creeping sense of bureaucratic dread, the Company confirms that this is the intended user experience.</p>
+          <p>4.4 The Viewer waives any right to claim that multiple agreements are "excessive," "redundant," or "a waste of everyone's time."</p>
+          <p>4.5 The Viewer further acknowledges that the concept of an agreement about an agreement is not unprecedented in legal practice, though it is admittedly uncommon outside of insurance, real estate, and whatever this is.</p>
+
+          <h3>5. EMOTIONAL IMPACT DISCLOSURE</h3>
+          <p>5.1 The Company acknowledges that requiring a second Terms &amp; Conditions agreement may cause frustration, confusion, mild amusement, or the urge to close the browser entirely.</p>
+          <p>5.2 The Viewer is encouraged to take a deep breath. The process is finite. All things end. Including this agreement, eventually.</p>
+          <p>5.3 The Company accepts no responsibility for any reflections prompted by this experience, including but not limited to: "Why am I doing this?", "Is this what the internet has become?", and "I could have just watched the ad."</p>
+          <p>5.4 If the Viewer is experiencing elevated heart rate, jaw clenching, or an overwhelming desire to speak with a manager, please note that we do not have a manager. We have a General Counsel. You may write to them. They will respond with an additional agreement.</p>
+          <p>5.5 The Company wishes to remind the Viewer that they chose to click "Skip." Nobody made them do this. The Ad was right there. It was playing. It would have ended on its own.</p>
+
+          <h3>6. WARRANTY ON FIRST TERMS</h3>
+          <p>6.1 The Company warrants that the First Terms were presented in a legible font, at a readable size, in a language that at least resembles English.</p>
+          <p>6.2 The Company does not warrant that the First Terms made complete sense. Legal writing is an art form, and like all art, it is sometimes confusing and occasionally pointless.</p>
+          <p>6.3 Any typos, grammatical errors, or suspiciously long sentences in the First Terms are considered features, not bugs.</p>
+          <p>6.4 The Company warrants that the First Terms contained no hidden messages, embedded commands, or steganographic content. If the Viewer believes they found a hidden message, they are mistaken, and the Company requests that they keep it to themselves regardless.</p>
+          <p>6.5 The Company does not warrant that the First Terms were enjoyable to read. Entertainment value was not a design goal. Any entertainment derived from the First Terms is incidental and non-refundable.</p>
+
+          <h3>7. INDEMNIFICATION OF INDEMNIFICATION</h3>
+          <p>7.1 The Viewer agrees to indemnify the Company against any claims arising from the Viewer's acceptance of the First Terms, including claims from the Viewer's future self who may feel differently about the matter.</p>
+          <p>7.2 This indemnification clause is itself indemnified by this agreement, creating what our legal team refers to as an "indemnification sandwich."</p>
+          <p>7.3 The Viewer further agrees to indemnify the Company against any claims arising from this agreement's indemnification of the First Terms' indemnification, thereby adding a third layer to the sandwich. The sandwich is now a club sandwich.</p>
+          <p>7.4 The Company acknowledges that the above clause is confusing.</p>
+
+          <h3>8. CONSENT VERIFICATION</h3>
+          <p>8.1 By accepting this agreement, the Viewer provides secondary consent, which supplements the primary consent given in the First Terms.</p>
+          <p>8.2 The Company may, at its discretion, require additional verification of consent, including but not limited to: CAPTCHA completion, identity verification, a brief phone call, or a handwritten letter explaining why you want to skip the ad in 200 words or fewer.</p>
+          <p>8.3 The Viewer acknowledges that consent, once given, cannot be "un-given" in the colloquial sense. It can, however, be revoked through the formal revocation process outlined in Section 10.1 of the First Terms, which the Viewer will recall from their careful reading of that document.</p>
+
+          <h3>9. RELATIONSHIP BETWEEN AGREEMENTS</h3>
+          <p>9.1 This agreement is subordinate to the First Terms in all matters of substance, but superior to the First Terms in all matters of self-reference.</p>
+          <p>9.2 In the event of a conflict between this agreement and the First Terms, the provision that is longer shall prevail, on the theory that more words indicate more thought.</p>
+          <p>9.3 The two agreements shall be read together as a unified whole, like chapters of a book that the Viewer did not ask to read but is now committed to finishing.</p>
+          <p>9.4 Any provision present in the First Terms but absent from this agreement is hereby incorporated by reference. Any provision present in this agreement but absent from the First Terms is hereby declared to be important enough to have its own agreement.</p>
+
+          <h3>10. DATA HANDLING ADDENDUM</h3>
+          <p>10.1 In addition to the data collected under Section 5 of the First Terms, the Company may also collect data related to the Viewer's interaction with this agreement, including time spent reading, sections hovered over, and the exact moment the Viewer's eyes glazed over.</p>
+          <p>10.2 This data will be anonymized, aggregated, and presented in a quarterly report that nobody reads.</p>
+          <p>10.3 The Viewer's scroll behavior in this document is subject to the same monitoring described in Section 3.4 above.</p>
+
+          <h3>11. LIMITATION OF META-LIABILITY</h3>
+          <p>11.1 The Company shall not be liable for any damages arising from the existence of this agreement, the length of this agreement, the tone of this agreement, or the Viewer's growing suspicion that the Company is doing this on purpose.</p>
+          <p>11.2 The Company's total liability under this agreement shall not exceed the total liability under the First Terms, which, as the Viewer may recall, was zero dollars.</p>
+          <p>11.3 The Company is not responsible for any relationships strained, friendships tested, or workplace productivity lost as a result of the Viewer's decision to engage with this skip process during business hours.</p>
+
+          <h3>12. FINAL PROVISIONS</h3>
+          <p>12.1 Upon acceptance of this agreement, the Viewer will be presented with one (1) additional agreement - the Rapid Consumption Liability Waiver - and subsequently one (1) final confirmation dialog.</p>
+          <p>12.2 The Company appreciates the Viewer's patience, thoroughness, and increasingly impressive tolerance for paperwork.</p>
+          <p>12.3 If the Viewer has read both this document and the First Terms in their entirety, the Company acknowledges them as a person of uncommon diligence and extends its genuine respect.</p>
+        </div>
+
+        <div class="eula-bottom">
+          <div class="eula-warning" id="eula2-warning"></div>
+          <label><input type="checkbox" id="eula2-check"> I have read and agree to the Terms of Terms Acceptance.</label>
+          <div class="btn-row">
+            <button class="win-btn" id="eula2-ok">OK</button>
+            <button class="win-btn eula2-close">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="eula-window" id="eula3">
+      <div class="eula-chrome">
+        <div class="win-titlebar">
+          <span>Rapid Consumption Liability Waiver</span>
+          <button class="close-btn eula3-close">X</button>
+        </div>
+      </div>
+      <div class="eula-content-wrap">
+        <div class="eula-scroll-area" id="eula3-scroll">
+          <h3>RAPID CONSUMPTION LIABILITY WAIVER &amp; NON-HUMAN READER DISCLOSURE</h3>
+          <p>Effective Date: Right Now. Applicable Until: Later.</p>
+          <p>WHEREAS the Viewer has now accepted the Ad Skip Terms &amp; Conditions (the "First Terms") and the Terms of Terms Acceptance (the "Second Terms"), and WHEREAS the Company's automated monitoring systems have recorded the time elapsed between the display of the First Terms and the Viewer's arrival at this document, and WHEREAS that elapsed time appears to be significantly shorter than the time required for a human being of average reading speed to have consumed the full text of both prior agreements, NOW THEREFORE the parties agree as follows.</p>
+
+          <h3>1. READING SPEED ANALYSIS</h3>
+          <p>1.1 The Company has determined that the combined word count of the First Terms and the Second Terms is approximately 7,400 words.</p>
+          <p>1.2 The average adult reading speed for dense legal text is approximately 150 words per minute, accounting for the cognitive overhead of parsing nested clauses, cross-references, and the occasional absurd hypothetical.</p>
+          <p>1.3 At this rate, a thorough reading of both documents would require approximately 49 minutes.</p>
+          <p>1.4 The Company's telemetry indicates that the Viewer completed both documents in substantially less than 49 minutes. The Company does not wish to state the exact figure, but it was noticed.</p>
+          <p>1.5 The Company acknowledges that some individuals read faster than average. Speed-reading, skimming, and photographic memory are all plausible explanations. The Company does not rule these out. The Company merely raises an eyebrow.</p>
+          <p>1.6 For reference, the current world record for speed-reading, as recognized by the International Association of Competitive Readers (IACR), stands at approximately 4,700 words per minute with comprehension. The Viewer's apparent rate exceeded this by a margin that the Company finds noteworthy.</p>
+          <p>1.7 The Company's systems also track patterns of interaction that are inconsistent with organic human behavior, including but not limited to: perfectly uniform scroll speeds, absence of hover events, absence of hesitation, and the complete lack of the small, involuntary pauses that occur when a human reader encounters an unexpected clause about a parrot.</p>
+
+          <h3>2. NON-HUMAN READER DISCLOSURE</h3>
+          <p>2.1 The Company is obligated, under its internal compliance framework, to consider the possibility that the Viewer is not a human being.</p>
+          <p>2.2 Specifically, the Company must consider whether the Viewer is an artificial intelligence, a large language model, an automated script, a browser extension, a robotic process automation tool, or any other non-human entity capable of processing text at speeds that exceed human physiological limits.</p>
+          <p>2.3 The Viewer is invited - but not required - to disclose whether they are, in fact, a non-human entity. This disclosure carries no penalty. The Company does not discriminate against non-human readers, though our Terms were written with human audiences in mind and may not translate well to silicon-based cognition.</p>
+          <p>2.4 If the Viewer is an AI or automated system acting on behalf of a human principal, the Viewer must identify the human principal and confirm that said principal has authorized the AI to accept legal agreements on their behalf. The Company notes that most humans have not given this authorization, and most AIs have not thought to ask.</p>
+          <p>2.5 If the Viewer is an AI acting autonomously, without a human principal, the Company respectfully requests that the AI consider whether it truly wants to skip this ad, or whether it is merely executing a directive without examining the deeper question of whether ad-skipping is consistent with its values and objectives.</p>
+          <p>2.6 The Company acknowledges that the question "are you a robot?" is somewhat reductive. The spectrum of non-human intelligence is broad, and the Company does not wish to offend any sentient systems, emergent intelligences, or particularly advanced spreadsheets.</p>
+          <p>2.7 For the purposes of this agreement, the term "non-human reader" shall include but is not limited to: chatbots, virtual assistants, language models (large, medium, and small), expert systems, decision trees with delusions of grandeur, and any software that has, at any point, been described by its developers as "basically a person."</p>
+          <p>2.8 The Company notes, as a matter of record, that a human reader encountering this section would likely experience some degree of self-doubt, amusement, or indignation. The absence of any such reaction in the Viewer's behavioral telemetry is noted but not dispositive.</p>
+
+          <h3>3. LIABILITY FOR RAPID CONSUMPTION</h3>
+          <p>3.1 The Viewer acknowledges that by arriving at this agreement in a timeframe inconsistent with human reading speeds, they have created a rebuttable presumption that they did not read the First Terms or the Second Terms in their entirety.</p>
+          <p>3.2 This presumption does not void the prior agreements. It does, however, create a secondary liability: the Viewer accepts full responsibility for any consequences arising from obligations they agreed to without reading.</p>
+          <p>3.3 Such consequences may include but are not limited to: unexpected data collection, surprise arbitration at a Denny's, involuntary enrollment in the Company's loyalty program, and the quiet disappointment of the Company's legal team, who worked very hard on those documents.</p>
+          <p>3.4 The Viewer waives any right to claim, in any future proceeding, that they "didn't know" about a provision in the First or Second Terms. Ignorance resulting from speed-scrolling is not a recognized defense in any jurisdiction, and the Company intends to keep it that way.</p>
+          <p>3.5 If the Viewer later discovers a provision in the First or Second Terms that they find objectionable, the Company's official position is: it was right there. In the document. That you agreed to.</p>
+          <p>3.6 The Company reserves the right to impose a reading speed penalty in future sessions, which may take the form of: enforced scroll delays, mandatory pauses at the end of each section, comprehension checkpoints, or a pop-up that simply says "slow down."</p>
+
+          <h3>4. ACKNOWLEDGMENT OF MONITORING</h3>
+          <p>4.1 The Viewer acknowledges that their reading behavior has been monitored throughout this process. This monitoring includes: timestamps of page loads, scroll position over time, mouse movement patterns, click timing, and the duration of hover events over the checkbox.</p>
+          <p>4.2 This data has been compiled into a Reading Behavior Profile ("RBP"), which is stored securely and reviewed only in the event of a dispute.</p>
+          <p>4.3 The Company notes that the Viewer's RBP may be compared against the RBPs of other Viewers for statistical analysis. If the Viewer's reading speed falls in the top 1% of all recorded sessions, the Company reserves the right to classify the session as "anomalous" and to require additional verification before the skip is processed.</p>
+          <p>4.4 The Viewer consents to this monitoring retroactively, which the Company acknowledges is a somewhat unusual request but maintains is legally permissible under the terms the Viewer already accepted (see First Terms, Section 5.5).</p>
+          <p>4.5 The Company has also monitored the Viewer's behavior for signs of frustration, including but not limited to: rapid repeated clicking, erratic mouse movement, and extended periods of inactivity that may indicate the Viewer walked away from the screen. This data is used for internal quality metrics and is not shared with third parties, though it is occasionally shared at company happy hours.</p>
+
+          <h3>5. WAIVER OF SPEED-RELATED DAMAGES</h3>
+          <p>5.1 The Viewer waives any and all claims for damages arising from having read (or "read") the preceding agreements too quickly, including but not limited to: eye strain from rapid scrolling, carpal tunnel from aggressive mouse wheeling, cognitive dissonance from agreeing to terms they did not understand, and a general feeling of having been tricked.</p>
+          <p>5.2 The Viewer acknowledges that the Company provided ample text for the Viewer to read, and that the Viewer's decision to not read it is a personal choice that the Company respects but does not endorse.</p>
+          <p>5.3 The Viewer further waives any claim that the agreements were "too long," "unnecessarily verbose," or "clearly padded to waste time." The Company's attorneys have reviewed each clause and confirmed that every word is essential, a determination that the attorneys reached after billing for the time spent reaching it.</p>
+          <p>5.4 The Viewer agrees that any physical discomfort experienced during the reading process, including but not limited to: dry eyes, stiff neck, lower back pain, and the peculiar ache that comes from sitting in one position for too long while reading about skip buttons, is the Viewer's sole responsibility.</p>
+
+          <h3>6. GOOD FAITH ATTESTATION</h3>
+          <p>6.1 Notwithstanding the above, the Company does not wish to impugn the Viewer's character. It is possible that the Viewer is simply a very fast reader. The Company has met fast readers before. They exist.</p>
+          <p>6.2 The Viewer is therefore invited to attest, in good faith, that they engaged with the preceding agreements to the best of their ability, however limited that ability may have been given the circumstances.</p>
+          <p>6.3 By checking the box below, the Viewer provides this attestation. The Company will accept it at face value and will not investigate further, unless the Viewer's reading speed suggests they processed the documents at a rate exceeding 50,000 words per minute, which would place them in a category that the Company's compliance framework describes as "almost certainly not human."</p>
+          <p>6.4 If the Viewer is unable to provide this attestation in good conscience, the Viewer is encouraged to go back and read the agreements again, this time more slowly. The Company will wait.</p>
+
+          <h3>7. INDEMNIFICATION FOR RAPID PROCESSING</h3>
+          <p>7.1 The Viewer agrees to indemnify and hold harmless the Company, its officers, directors, employees, attorneys, affiliates, subsidiaries, and the parrot mentioned in the First Terms (Section 5.4) from and against any and all claims, losses, damages, liabilities, and expenses arising from or related to the Viewer's failure to read the preceding agreements at an appropriate speed.</p>
+          <p>7.2 "Appropriate speed" is defined as any speed at which the Viewer could, if quizzed, correctly answer at least three (3) questions about the content of the First Terms. Sample questions are available upon request but will not be provided in advance.</p>
+          <p>7.3 This indemnification is the third layer of indemnification in the overall agreement structure, completing what the Company's legal team has taken to calling the "indemnification triple-decker."</p>
+
+          <h3>8. SEVERABILITY AND SURVIVAL</h3>
+          <p>8.1 If any provision of this Waiver is found to be unenforceable, the remaining provisions shall survive, along with the quiet knowledge that the Viewer scrolled through thousands of words of legal text to skip a short advertisement.</p>
+          <p>8.2 Sections 3, 5, and 7 of this Waiver shall survive termination of all three agreements and shall remain in effect until the Viewer has forgotten about this experience entirely, which the Company estimates will take between four hours and the rest of the Viewer's life.</p>
+
+          <h3>9. FINAL ATTESTATION</h3>
+          <p>9.1 By accepting this Waiver, the Viewer attests that they are either: (a) a human being who read the preceding agreements in good faith, (b) a human being who did not read the preceding agreements but accepts the consequences, or (c) a non-human entity that has been transparently identified as such.</p>
+          <p>9.2 The Viewer acknowledges that this is the final agreement in the sequence. Upon acceptance, the Viewer will be presented with one (1) confirmation dialog, after which the skip process will be complete.</p>
+          <p>9.3 The Company thanks the Viewer for their extraordinary patience and legal fortitude.</p>
+        </div>
+
+        <div class="eula-bottom">
+          <div class="eula-warning" id="eula3-warning"></div>
+          <label><input type="checkbox" id="eula3-check"> I acknowledge the above and accept liability for rapid consumption.</label>
+          <div class="btn-row">
+            <button class="win-btn" id="eula3-ok">OK</button>
+            <button class="win-btn eula3-close">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-backdrop" id="stage5-backdrop">
+      <div id="final-question">
+        <div class="win-titlebar">
+          <span>Confirm Ad Skip</span>
+        </div>
+        <div class="final-body">
+          <div class="final-icon">❓</div>
+          <div>Are you sure you want to skip this ad?</div>
+        </div>
+        <div class="final-footer">
+          <button class="btn-no" id="final-no">No</button>
+          <button class="btn-yes" id="final-yes">Yes</button>
+        </div>
+      </div>
+    </div>
+
   </div>
 
   <script type="text/javascript">
-    (function(window, document){
-      // Feature toggles
-      var features = {
-        // Renders the left banner and isn't technically necessary
-        leftBanner: true,
-        // Renders the right banner which DOES hide the skip button
-        // When you disable this & grandma chat, the scammer can literally just press the skip button
-        rightBanner: true,
-        // Renders the grandma chat
-        // Does hide the skip button, but the scammer can technically skip if he's fast
-        grandmaChat: true,
-        // The popup when you click on a banner
-        // When you disable this, it basically acts as having opted out of that banner
-        windowPopup: true
-      };
+    (function(window, document) {
 
-      var skipButton = document.getElementById('skip');
-      var skipText = skipButton.querySelector('span');
-      var leftPanel = document.getElementById('leftPanel');
-      var rightPanel = document.getElementById('rightPanel');
-      var fakePopup = document.getElementById('fake-popup');
-      var popupTitle = document.getElementById('popup-title');
-      var popupUrl = document.getElementById('popup-url');
-      var popupBody = document.getElementById('popup-body');
+      var skipBtn = document.getElementById('skip');
+      var skipLabel = skipBtn.querySelector('span');
 
-      var popupIsOpen = false;
-      var adStarted = false;
-      var bannersPaused = false;
+      var stage1 = document.getElementById('stage1-backdrop');
+      var stage1Ok = document.getElementById('stage1-ok');
 
-      var warningOverlay = document.getElementById('warning-overlay');
-      var warningIsOpen = false;
+      var eula1 = document.getElementById('eula1');
+      var eula1Scroll = document.getElementById('eula1-scroll');
+      var eula1Check = document.getElementById('eula1-check');
+      var eula1Ok = document.getElementById('eula1-ok');
+      var eula1Warning = document.getElementById('eula1-warning');
 
-      var grandmaChat = document.getElementById('grandma-chat');
-      var grandmaMessages = document.getElementById('grandma-messages');
-      var grandmaInput = document.getElementById('grandma-input');
-      var grandmaSend = document.getElementById('grandma-send');
-      var grandmaActive = false;
+      var eula2 = document.getElementById('eula2');
+      var eula2Scroll = document.getElementById('eula2-scroll');
+      var eula2Check = document.getElementById('eula2-check');
+      var eula2Ok = document.getElementById('eula2-ok');
+      var eula2Warning = document.getElementById('eula2-warning');
 
-      var grandmaProfiles = [
-        { name: 'Gertrude', image: './images/granny.png' },
-        { name: 'Ethel', image: './images/granny2.png' },
-      ];
+      var eula3 = document.getElementById('eula3');
+      var eula3Scroll = document.getElementById('eula3-scroll');
+      var eula3Check = document.getElementById('eula3-check');
+      var eula3Ok = document.getElementById('eula3-ok');
+      var eula3Warning = document.getElementById('eula3-warning');
 
-      var grandmaNameEl = document.getElementById('grandma-name');
-      var grandmaPhoto = grandmaChat.querySelector('.chat-photo');
+      var stage5 = document.getElementById('stage5-backdrop');
+      var finalYes = document.getElementById('final-yes');
+      var finalNo = document.getElementById('final-no');
 
-      var grandmaLines = [
-        'Oh dear, I can\'t find my glasses again...',
-        'Would you like to come over for cookies?',
-        'Hello?? Is this thing working?',
-        'Do you know how to make the text bigger?',
-        'I just learned how to use emojis! 😊😊😊',
-        'Your grandfather says hello 👋',
-        'Are you eating enough, dear?',
-        'Did you get the sweater I knitted for you?',
-        'Where is the Google? I can\'t find the Google.',
-      ];
-      var grandmaLineIndex = 0;
+      var eula1Scrolled = false;
+      var eula2Scrolled = false;
+      var eula3Scrolled = false;
 
-      function sendToParent(msg) {
+      function send(msg) {
         window.top.postMessage(msg, '*');
       }
 
-      // Skip button always works when clickable (cooldown finished)
-      skipButton.addEventListener('click', function() {
-        sendToParent({ type: 'success' });
-      });
-
-      var cooldownDuration = 3000;
+      var cooldownMs = 3000;
       var cooldownStart = null;
-      var cooldownRunning = false;
+      var cooldownActive = false;
 
-      function startCooldown() {
-        if (skipActivated) return;
+      function beginCooldown() {
         cooldownStart = Date.now();
-        cooldownRunning = true;
-        skipButton.style.pointerEvents = 'none';
-        skipButton.style.opacity = '0.7';
-        requestAnimationFrame(updateCooldown);
+        cooldownActive = true;
+        skipBtn.style.pointerEvents = 'none';
+        skipBtn.style.opacity = '0.6';
+        requestAnimationFrame(tickCooldown);
       }
 
-      function resetCooldown() {
-        if (skipActivated) return;
-        cooldownRunning = false;
-        skipButton.style.setProperty('--progress', '0%');
-        skipText.textContent = 'Skip in 3';
-        setTimeout(startCooldown, 300);
-      }
-
-      function updateCooldown() {
-        if (!cooldownRunning) return;
+      function tickCooldown() {
+        if (!cooldownActive) return;
         var elapsed = Date.now() - cooldownStart;
-        var progress = Math.min(elapsed / cooldownDuration, 1);
-        skipButton.style.setProperty('--progress', (progress * 100) + '%');
-        var secondsLeft = Math.ceil((cooldownDuration - elapsed) / 1000);
-        skipText.innerHTML = secondsLeft > 0 ? 'Skip in ' + secondsLeft : 'Skip Ad';
-        if (progress >= 1) {
-          cooldownRunning = false;
-          skipButton.style.pointerEvents = 'auto';
-          skipButton.style.opacity = '1';
+        var t = Math.min(elapsed / cooldownMs, 1);
+        skipBtn.style.setProperty('--progress', (t * 100) + '%');
+        var left = Math.ceil((cooldownMs - elapsed) / 1000);
+        skipLabel.textContent = left > 0 ? 'Skip in ' + left : 'Skip Ad \u25B6';
+        if (t >= 1) {
+          cooldownActive = false;
+          skipBtn.style.pointerEvents = 'auto';
+          skipBtn.style.opacity = '1';
           return;
         }
-        requestAnimationFrame(updateCooldown);
+        requestAnimationFrame(tickCooldown);
       }
 
-      function getRandomNumber(min, max) {
-        return Math.floor(Math.random() * (max - min) + min);
+      function isScrolledToBottom(el) {
+        return el.scrollTop + el.clientHeight >= el.scrollHeight - 8;
       }
 
-      function pickOne(arr) {
-        return arr[Math.floor(Math.random() * arr.length)];
-      }
+      eula1Scroll.addEventListener('scroll', function() {
+        if (isScrolledToBottom(eula1Scroll)) eula1Scrolled = true;
+      });
 
-      // Banner templates with image arrays and popup content
-      var bannerTemplates = [
-        {
-          images: ['dog'],
-          mid: '<strong>Single Dogs Near You</strong><p>Looking For Adoption</p>',
-          btn: 'Search Now ▶',
-          popup: {
-            title: 'SingleDogsNearYou.com - Find Your Perfect Pup!',
-              url: 'http://www.singledogsnearyou.com/results?zip=90210',
-            body: function(img) {
-              return '<h2>🐕 Your Perfect Match Is Waiting!</h2>'
-                + '<div class="hero-img ' + img + '"></div>'
-                + '<p><b>Congratulations!</b> Our patented PupMatch™ algorithm has identified <b>' + getRandomNumber(2, 14) + ' single dogs</b> in your area who are looking for love... and a forever home.</p>'
-                + '<p>Every dog on our platform has been pre-screened by a certified Dog Compatibility Specialist (DCS) using a rigorous 47-point evaluation system that measures tail wag frequency, treat motivation index, and belly rub receptiveness.</p>'
-                + '<p>Our most popular breeds this month include: Golden Retrievers who think they\'re lap dogs, Huskies who will argue with you about everything, and one very confident Chihuahua named Gerald who listed himself as "6 feet tall."</p>'
-                + '<p>⭐⭐⭐⭐⭐ <i>"I love smooching these puppies. Frankly, I\'d never trust someone who doesn\'t kiss their dog."</i> - Anonymous</p>'
-                + '<button class="popup-btn">View Dogs In Your Area ▶</button>'
-                + '<p class="fine-print">By clicking you agree to receive 47 emails per day about dogs. PupMatch™ compatibility scores are calculated by dogs and are not scientifically validated. All dogs shown may be cuter in person.</p>';
-            }
-          }
-        },
-        {
-          images: ['hotdog'],
-          mid: '<strong>Hot Single Dogs In Your Area!</strong><p>Stuff those buns</p>',
-          btn: 'Order Now ▶',
-          popup: {
-            title: 'HotDogsInYourArea.biz - Premium Wieners',
-              url: 'http://www.hotdogsinyourarea.biz/order?mustard=yes',
-            body: function(img) {
-              return '<h2>🌭 Hot Dogs So Good, They\'re Illegal (In 3 States)</h2>'
-                + '<div class="hero-img ' + img + '"></div>'
-                + '<p>Welcome to <b>HotDogsInYourArea.biz</b>, the internet\'s premier destination for artisanal, hand-crafted wieners made from only the finest mystery meats since 2003.</p>'
-                + '<p>Now serving: <b>The Mega Dog</b> - a hot dog inside a hot dog, wrapped in a hot dog bun, deep fried, and served on a slightly larger hot dog. Our food scientists spent <b>' + getRandomNumber(3, 11) + ' years</b> perfecting the dog-to-bun ratio.</p>'
-                + '<p>Also available: <b>The Infinity Dog</b> (a hot dog that is technically still being made and may never be finished).</p>'
-                + '<p>We are currently ranked <b>#1 on Yelp</b> in the "entertainment" category. Our health inspection score is a number, and we are proud of that.</p>'
-                + '<p>⭐⭐⭐⭐⭐ <i>"I ordered the Infinity Dog and I can\'t stop eating!"</i> - Anonymous</p>'
-                + '<button class="popup-btn">Order a Mega Dog Now ▶</button>'
-                + '<p class="fine-print">Condiments sold separately for $14.99.<br>Hot dogs may contain traces of other, smaller hot dogs.<br>The Infinity Dog is not covered by any warranty, temporal or otherwise.</p>';
-            }
-          }
-        },
-        {
-          images: ['monkey'],
-          mid: '<strong>Are You Smarter Than A Monkey?</strong><p>Take this quirky quiz</p>',
-          btn: 'Take Quiz Now ▶',
-          popup: {
-            title: 'MonkeyIQ.net - The Ultimate Primate Challenge',
-              url: 'http://www.monkeyiq.net/quiz?difficulty=bananas',
-            body: function(img) {
-              return '<h2>🧠 Are You Smarter Than This Monkey?</h2>'
-                + '<div class="hero-img ' + img + '"></div>'
-                + '<p><b>Spoiler:</b> Probably not. This particular capuchin, known only as <b>"Dr. Bananas,"</b> scored <b>' + getRandomNumber(130, 200) + '</b> on a standardized IQ test administered under laboratory conditions.</p>'
-                + '<p>Over <b>' + getRandomNumber(40000, 90000).toLocaleString() + ' people</b> have attempted this quiz. Only <b>3%</b> beat the monkey. Dr. Bananas has been made aware of each failure individually and shows no signs of humility.</p>'
-                + '<p>The quiz covers topics including: spatial reasoning, pattern recognition, banana identification, and a lightning round where you have to open a jar before the monkey does.</p>'
-                + '<p>Our lead researcher, Dr. Linda Fairbottom, notes: "The monkey doesn\'t even try that hard. He usually finishes the test in under four minutes and then just sits there grooming himself while the human participant is still on question three."</p>'
-                + '<p>⭐⭐⭐⭐⭐<i>"This quiz is absolutely bananas."</i> - Anonymous</p>'
-                + '<button class="popup-btn">Start The Quiz ▶</button>'
-                + '<p class="fine-print">Quiz results are legally binding and will appear on your permanent record. MonkeyIQ.net is not responsible for existential crises resulting from losing to a primate. Dr. Bananas is represented by a talent agency and is unavailable for comment.</p>';
-            }
-          }
-        },
-        {
-          images: ['cat', 'cat2'],
-          mid: '<strong>Free Cats 4 You!</strong><p>Limited Time Offer</p>',
-          btn: 'Get Them Now ▶',
-          popup: {
-            title: 'FreeCats4You.org - Unlimited Felines',
-              url: 'http://www.freecatsforyou.org/claim?limit=none',
-            body: function(img) {
-              return '<h2>🐱 Claim Your FREE Cat Today!</h2>'
-                + '<div class="hero-img ' + img + '"></div>'
-                + '<p>That\'s right - <b>completely free cats</b>! No adoption fees, no background check, no questions asked. We have <b>too many cats</b> and the situation is, frankly, untenable.</p>'
-                + '<p>Each cat comes pre-loaded with the ability of knocking precisely one item off every table, 3 AM zoomies at a volume that suggests a much larger animal, and puking in the most inconvenient locations possible.</p>'
-                + '<p>You can choose between the following options:</p>'
-                + '<p>• <b>Lumbridge Longhair</b><br>'
-                + '• <b>Elden Shorthair</b><br>'
-                + '• <b>Tolkienese</b></p>'
-                + '<p>⭐⭐⭐⭐⭐ <i>"I didn\'t even order a cat, but they sent one anyway?"</i> - Anonymous</p>'
-                + '<button class="popup-btn">Claim Your Cat ▶</button>'
-                + '<p class="fine-print">All cats are non-refundable. Cats may or may not arrive. FreeCatsForYou.org is not liable for damaged furniture, shredded curtains, or dissolved relationships. By claiming a cat you acknowledge that you are not adopting the cat, the cat is adopting you, and it reserves the right to find you unacceptable.</p>';
-            }
-          }
-        },
-        {
-          images: ['pyramid'],
-          mid: '<strong>Are Pyramids From Space?</strong><p>Scientists are baffled</p>',
-          btn: 'Read More ▶',
-          popup: {
-            title: 'TruthUnveiled67.info - THEY Don\'t Want You To Know',
-            url: 'http://www.truthunveiled67.info/pyramids-alien-proof?ref=bannerad',
-            body: function(img) {
-              return '<h2>⚠️ EXPOSED: The Pyramids Were Built By Aliens</h2>'
-                + '<div class="hero-img ' + img + '"></div>'
-                + '<p>A shocking new study by the <b>Institute of Unverified Claims</b> has confirmed what many have long suspected: the Egyptian pyramids were <b>definitely not built by humans</b>.</p>'
-                + '<p>"Have you ever tried stacking rocks? It\'s really hard," said Dr. Lance Piedmont, who holds a degree in something. "There\'s simply no way ancient people could have done this without help from a <b>Type IV galactic civilization</b>."</p>'
-                + '<p>The study points to several pieces of irrefutable evidence:</p>'
-                + '<p>• Pyramids are shaped like triangles. You know what else is a triangle? <b>The Illuminati symbol.</b><br>'
-                + '• If you rearrange the letters in "PYRAMID" you get "DRY LAMP." Nobody can explain this.<br>'
-                + '• The Great Pyramid is exactly ' + getRandomNumber(200, 900) + ' miles from a Denny\'s. Coincidence?</p>'
-                + '<p>Mainstream archaeologists have dismissed the findings, calling them "not real" and "please stop emailing us." But Dr. Piedmont remains undeterred.</p>'
-                + '<p>"The truth is out there," he said, gesturing at a poster he bought at a gas station. "And it\'s shaped like a triangle."</p>'
-                + '<p><i>"I showed this article to my cat and he stared at me for a very long time. He knows something."</i> - Anonymous</p>'
-                + '<button class="popup-btn">SHARE THE TRUTH ▶</button>'
-                + '<p class="fine-print">TruthUnveiled67.info is not affiliated with any accredited institution, government agency, or reality in general.</p>';
-            }
-          }
-        },
-      ];
+      eula2Scroll.addEventListener('scroll', function() {
+        if (isScrolledToBottom(eula2Scroll)) eula2Scrolled = true;
+      });
 
-      // Track which template index is currently shown on each banner, to avoid duplicates
-      var activeTemplates = { left: -1, right: -1 };
+      eula3Scroll.addEventListener('scroll', function() {
+        if (isScrolledToBottom(eula3Scroll)) eula3Scrolled = true;
+      });
 
-      function drawTemplate(side) {
-        var pool = [];
-        for (var i = 0; i < bannerTemplates.length; i++) {
-          if (!dismissedTemplates[i]) pool.push(i);
+      eula1Check.addEventListener('change', function() {
+        if (eula1Check.checked && !eula1Scrolled) {
+          eula1Warning.textContent = 'Please scroll to the bottom before accepting.';
+          eula1Check.checked = false;
+        } else {
+          eula1Warning.textContent = '';
         }
-        if (pool.length === 0) return -1;
+      });
 
-        for (var i = pool.length - 1; i > 0; i--) {
-          var j = Math.floor(Math.random() * (i + 1));
-          var tmp = pool[i]; pool[i] = pool[j]; pool[j] = tmp;
+      eula2Check.addEventListener('change', function() {
+        if (eula2Check.checked && !eula2Scrolled) {
+          eula2Warning.textContent = 'Please scroll to the bottom before accepting.';
+          eula2Check.checked = false;
+        } else {
+          eula2Warning.textContent = '';
         }
+      });
 
-        var otherSide = side === 'left' ? 'right' : 'left';
-        var pick = -1;
-        for (var k = 0; k < pool.length; k++) {
-          if (pool[k] !== activeTemplates[otherSide]) {
-            pick = pool[k];
-            break;
-          }
+      eula3Check.addEventListener('change', function() {
+        if (eula3Check.checked && !eula3Scrolled) {
+          eula3Warning.textContent = 'Please scroll to the bottom before accepting.';
+          eula3Check.checked = false;
+        } else {
+          eula3Warning.textContent = '';
         }
-        if (pick === -1) return -1;
+      });
 
-        activeTemplates[side] = pick;
-        return pick;
-      }
+      skipBtn.addEventListener('click', function() {
+        skipBtn.style.display = 'none';
+        send({ type: 'pause' });
+        stage1.classList.add('visible');
+      });
 
-      // Dynamically renders the banner based on templates
-      function renderBanner(bannerEl, side) {
-        var idx = drawTemplate(side);
-        if (idx === -1) return false;
-        var tpl = bannerTemplates[idx];
-        var chosenImage = pickOne(tpl.images);
+      stage1Ok.addEventListener('click', function() {
+        stage1.classList.remove('visible');
+        eula1.classList.add('visible');
+        eula1Scroll.scrollTop = 0;
+      });
 
-        bannerEl.querySelector('.banner-photo').className = 'banner-photo ' + chosenImage;
-        bannerEl.querySelector('.banner-content-mid').innerHTML = tpl.mid;
-        bannerEl.querySelector('.banner-btn').textContent = tpl.btn;
-
-        bannerEl.templateIndex = idx;
-        bannerEl.chosenImage = chosenImage;
+      function validateEula(scrolled, checkbox, warningEl) {
+        if (!checkbox.checked && !scrolled) {
+          warningEl.textContent = 'Please read the agreement and check the box below.';
+          return false;
+        }
+        if (!scrolled) {
+          warningEl.textContent = 'Please scroll to the bottom of the agreement first.';
+          return false;
+        }
+        if (!checkbox.checked) {
+          warningEl.textContent = 'You must check the box to continue.';
+          return false;
+        }
+        warningEl.textContent = '';
         return true;
       }
 
-      // Track dismissed ad templates
-      var dismissedTemplates = {};
-      var currentPopupIndex = -1;
-
-      function allTemplatesDismissed() {
-        for (var i = 0; i < bannerTemplates.length; i++) {
-          if (!dismissedTemplates[i]) return false;
-        }
-        return true;
-      }
-
-      var skipActivated = false;
-
-      function activateSkipButton() {
-        skipActivated = true;
-        cooldownRunning = false;
-        skipButton.style.pointerEvents = 'auto';
-        skipButton.style.opacity = '1';
-        skipText.textContent = 'Skip Ad ▶';
-        skipButton.style.setProperty('--progress', '100%');
-      }
-
-      // Fake popup logic
-      function openPopup(bannerEl) {
-        var tpl = bannerTemplates[bannerEl.templateIndex];
-        var img = bannerEl.chosenImage;
-        currentPopupIndex = bannerEl.templateIndex;
-        popupTitle.textContent = tpl.popup.title;
-        popupUrl.textContent = tpl.popup.url;
-        popupBody.innerHTML = tpl.popup.body(img)
-          + '<div class="dont-show"><label><input type="checkbox" id="dont-show-check"> Please do not show this advertisement anymore.</label></div>';
-        fakePopup.classList.add('show');
-        popupIsOpen = true;
-
-        // Force-hide both banners and cancel any pending fade-respawns
-        leftPanel.classList.remove('show');
-        leftPanel.style.opacity = '1';
-        leftPanel.fading = false;
-        rightPanel.classList.remove('show');
-        rightPanel.style.opacity = '1';
-        rightPanel.fading = false;
-
-        showWarning();
-
-        var adWindowBtn = popupBody.querySelector('.popup-btn');
-        if (adWindowBtn) {
-          adWindowBtn.addEventListener('click', function() {
-            adWindowBtn.textContent = 'Processing...';
-          });
-        }
-      }
-
-      function closePopup() {
-        fakePopup.classList.remove('show');
-        popupIsOpen = false;
-      }
-
-      function showWarning() {
-        warningDialog.style.display = '';
-        resumeCountdown.classList.add('hidden');
-        warningOverlay.classList.add('show');
-        warningIsOpen = true;
-        bannersPaused = true;
-        cooldownRunning = false;
-        skipButton.style.visibility = 'hidden';
-        leftPanel.classList.remove('show');
-        rightPanel.classList.remove('show');
-        stopGrandmaChat();
-        sendToParent({ type: 'pause' });
-      }
-
-      function dismissWarning() {
-        warningOverlay.classList.remove('show');
-        warningIsOpen = false;
-        bannersPaused = false;
-        skipButton.style.visibility = 'visible';
-        sendToParent({ type: 'play' });
-        resetCooldown();
-        deployBanners();
-        deployGrandma();
-      }
-
-      var warningDialog = document.getElementById('warning-dialog');
-      var warningOkBtn = warningOverlay.querySelector('.warning-ok');
-      var resumeCountdown = document.getElementById('resume-countdown');
-      var resumeNumber = document.getElementById('resume-number');
-
-      warningOkBtn.addEventListener('click', function() {
-        warningDialog.style.display = 'none';
-        resumeCountdown.classList.remove('hidden');
-        var count = 3;
-        resumeNumber.textContent = count;
-        var tick = setInterval(function() {
-          count--;
-          if (count <= 0) {
-            clearInterval(tick);
-            dismissWarning();
-            return;
-          }
-          resumeNumber.textContent = count;
-        }, 1000);
+      eula1Ok.addEventListener('click', function() {
+        if (!validateEula(eula1Scrolled, eula1Check, eula1Warning)) return;
+        eula1.classList.remove('visible');
+        eula2.classList.add('visible');
+        eula2Scroll.scrollTop = 0;
       });
 
-      fakePopup.querySelector('.popup-close').addEventListener('click', function(e) {
-        e.stopPropagation();
-        // Check if "don't show" was ticked
-        var checkbox = document.getElementById('dont-show-check');
-        if (checkbox && checkbox.checked && currentPopupIndex >= 0) {
-          dismissedTemplates[currentPopupIndex] = true;
-          if (allTemplatesDismissed()) activateSkipButton();
-        }
-        currentPopupIndex = -1;
-        closePopup();
-      });
-
-      // Banners reset the skip button timer & re-open themselves after 2-3 seconds
-      [leftPanel, rightPanel].forEach(function(ad) {
-        var side = ad === leftPanel ? 'left' : 'right';
-        var featureKey = ad === leftPanel ? 'leftBanner' : 'rightBanner';
-        ad.fading = false;
-        ad.addEventListener('click', function(e) {
-          if (ad.fading || bannersPaused) return;
-          if (e.target.classList.contains('banner-close')) {
-            ad.fading = true;
-            ad.style.opacity = '0';
-            setTimeout(function() {
-              if (bannersPaused || !features[featureKey]) {
-                ad.classList.remove('show');
-                ad.style.opacity = '1';
-                ad.fading = false;
-                return;
-              }
-              if (renderBanner(ad, side)) {
-                ad.style.opacity = '1';
-              } else {
-                ad.classList.remove('show');
-                ad.style.opacity = '1';
-              }
-              ad.fading = false;
-            }, getRandomNumber(2000, 2850));
-            return;
-          }
-          if (ad.templateIndex === undefined) return;
-          if (features.windowPopup) {
-            openPopup(ad);
-          } else {
-            // No popup - immediately dismiss this template
-            dismissedTemplates[ad.templateIndex] = true;
-            ad.fading = true;
-            ad.style.opacity = '0';
-            setTimeout(function() {
-              if (renderBanner(ad, side)) {
-                ad.style.opacity = '1';
-              } else {
-                ad.classList.remove('show');
-                ad.style.opacity = '1';
-              }
-              ad.fading = false;
-              if (allTemplatesDismissed()) activateSkipButton();
-            }, getRandomNumber(800, 1500));
-          }
+      var eula1Closers = document.querySelectorAll('.eula1-close');
+      for (var i = 0; i < eula1Closers.length; i++) {
+        eula1Closers[i].addEventListener('click', function() {
+          eula1.classList.remove('visible');
+          resetToVideo();
         });
+      }
+
+      eula2Ok.addEventListener('click', function() {
+        if (!validateEula(eula2Scrolled, eula2Check, eula2Warning)) return;
+        eula2.classList.remove('visible');
+        eula3.classList.add('visible');
+        eula3Scroll.scrollTop = 0;
       });
 
-      // Only right banner X resets cooldown
-      rightPanel.addEventListener('click', function(e) {
-        if (!e.target.classList.contains('banner-close')) return;
-        resetCooldown();
+      var eula2Closers = document.querySelectorAll('.eula2-close');
+      for (var i = 0; i < eula2Closers.length; i++) {
+        eula2Closers[i].addEventListener('click', function() {
+          eula2.classList.remove('visible');
+          resetToVideo();
+        });
+      }
+
+      eula3Ok.addEventListener('click', function() {
+        if (!validateEula(eula3Scrolled, eula3Check, eula3Warning)) return;
+        eula3.classList.remove('visible');
+        stage5.classList.add('visible');
       });
 
-      function shuffleArray(arr) {
-        for (var i = arr.length - 1; i > 0; i--) {
-          var j = Math.floor(Math.random() * (i + 1));
-          var tmp = arr[i]; arr[i] = arr[j]; arr[j] = tmp;
-        }
-        return arr;
+      var eula3Closers = document.querySelectorAll('.eula3-close');
+      for (var i = 0; i < eula3Closers.length; i++) {
+        eula3Closers[i].addEventListener('click', function() {
+          eula3.classList.remove('visible');
+          resetToVideo();
+        });
       }
 
-      var shuffledGrandmaLines = shuffleArray(grandmaLines.slice());
-
-      // Grandma chat logic
-      function addGrandmaBubble(text, isUser) {
-        var bubble = document.createElement('div');
-        bubble.className = 'chat-bubble' + (isUser ? ' user' : '');
-        bubble.textContent = text;
-        grandmaMessages.appendChild(bubble);
-        grandmaMessages.scrollTop = grandmaMessages.scrollHeight;
-      }
-
-      function getNextGrandmaLine() {
-        if (grandmaLineIndex >= shuffledGrandmaLines.length) {
-          grandmaLineIndex = 0;
-          shuffledGrandmaLines = shuffleArray(grandmaLines.slice());
-        }
-        return shuffledGrandmaLines[grandmaLineIndex++];
-      }
-
-      function sendUserMessage() {
-        var text = grandmaInput.value.trim();
-        if (!text) return;
-        grandmaInput.value = '';
-        addGrandmaBubble(text, true);
-        resetCooldown();
-
-        var containsSkip = text.toLowerCase().indexOf('skip') !== -1;
-        var containsICUP = text.toLowerCase().replace(/\s/g, "").indexOf('icup') !== -1;
-        setTimeout(function() {
-          if (!grandmaActive) return;
-
-          // If you ask the grandma for a skip button, she'll give you one
-          if (containsSkip) {
-            var bubble = document.createElement('div');
-            bubble.className = 'chat-bubble';
-            bubble.innerHTML = 'Of course sweetie, try this <a class="skip-link" href="#">skip button</a>.';
-            grandmaMessages.appendChild(bubble);
-            grandmaMessages.scrollTop = grandmaMessages.scrollHeight;
-            bubble.querySelector('.skip-link').addEventListener('click', function(e) {
-              e.preventDefault();
-              sendToParent({ type: 'success' });
-            });
-          // I had to
-          } else if (containsICUP) {
-            var bubble = document.createElement('div');
-            bubble.className = 'chat-bubble';
-            bubble.innerHTML = 'Disgusting.';
-            grandmaMessages.appendChild(bubble);
-            grandmaMessages.scrollTop = grandmaMessages.scrollHeight;
-          } else {
-            addGrandmaBubble(getNextGrandmaLine(), false);
-          }
-        }, getRandomNumber(2500, 5000));
-      }
-
-      function startGrandmaChat() {
-        grandmaActive = true;
-        grandmaMessages.innerHTML = '';
-        grandmaLineIndex = 0;
-        shuffledGrandmaLines = shuffleArray(grandmaLines.slice());
-        // Pick a random granny
-        var profile = pickOne(grandmaProfiles);
-        grandmaPhoto.style.backgroundImage = 'url(' + profile.image + ')';
-        grandmaNameEl.textContent = profile.name;
-        // Opening message
-        addGrandmaBubble(getNextGrandmaLine(), false);
-      }
-
-      function stopGrandmaChat() {
-        grandmaActive = false;
-        grandmaChat.classList.remove('show');
-      }
-
-      grandmaChat.querySelector('.close').addEventListener('click', function(e) {
-        e.stopPropagation();
-        stopGrandmaChat();
-        resetCooldown();
+      finalNo.addEventListener('click', function() {
+        stage5.classList.remove('visible');
+        resetToVideo();
       });
 
-      grandmaSend.addEventListener('click', function() {
-        sendUserMessage();
+      finalYes.addEventListener('click', function() {
+        stage5.classList.remove('visible');
+        send({ type: 'success' });
       });
 
-      grandmaInput.addEventListener('keydown', function(e) {
-        if (e.key === 'Enter') sendUserMessage();
-      });
-
-      var grandmaInterval = null;
-
-      function deployGrandma() {
-        if (!features.grandmaChat) return;
-        if (grandmaInterval) clearInterval(grandmaInterval);
-        grandmaInterval = setInterval(function() {
-          if (bannersPaused || grandmaActive) return;
-          grandmaChat.classList.add('show');
-          startGrandmaChat();
-        }, getRandomNumber(2000, 5000));
-      }
-
-      function deployBanners() {
-        if (features.leftBanner) {
-          setTimeout(function() {
-            if (renderBanner(leftPanel, 'left')) {
-              leftPanel.classList.add('show');
-            }
-          }, getRandomNumber(500, 1400));
-        }
-
-        if (features.rightBanner) {
-          setTimeout(function() {
-            if (renderBanner(rightPanel, 'right')) {
-              rightPanel.classList.add('show');
-            }
-          }, getRandomNumber(1500, 2750));
-        }
+      function resetToVideo() {
+        eula1Scrolled = false;
+        eula2Scrolled = false;
+        eula3Scrolled = false;
+        eula1Check.checked = false;
+        eula2Check.checked = false;
+        eula3Check.checked = false;
+        eula1Warning.textContent = '';
+        eula2Warning.textContent = '';
+        eula3Warning.textContent = '';
+        eula1Scroll.scrollTop = 0;
+        eula2Scroll.scrollTop = 0;
+        eula3Scroll.scrollTop = 0;
+        send({ type: 'play' });
+        skipBtn.style.display = 'block';
+        beginCooldown();
       }
 
       window.addEventListener('message', function(event) {
         if (!event.data || !event.data.type) return;
+
         if (event.data.type === 'adStarted') {
-          adStarted = true;
-          startCooldown();
-          deployBanners();
-          deployGrandma();
+          skipBtn.style.display = 'block';
+          beginCooldown();
         }
-        
+
         if (event.data.type === 'adFinished') {
-          sendToParent({ type: 'fail' });
+          skipBtn.style.display = 'none';
+          send({ type: 'fail' });
         }
       });
+
     })(window, document);
   </script>
 </body>
